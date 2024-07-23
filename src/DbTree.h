@@ -13,6 +13,9 @@ class DbTree : public Fl_Tree{
 
 public:
 	DbTree(int x, int y, int w, int h);
+
+	void update_schema(const DbSchema& new_schema);
+	void init_tree();
 //this->db_list = std::make_unique<Fl_Tree>(10, 50, 200, 520);
 private:
 	//std::unique_ptr<Fl_Tree> db_list;
@@ -24,6 +27,7 @@ private:
 
 	DbSchema schema;
 };
+
 
 
 #endif

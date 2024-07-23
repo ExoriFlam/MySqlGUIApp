@@ -23,10 +23,13 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 
 	this->add_db->callback(add_db_but_cb,this);
 
-
 	this->add_db->set_image("../image/addDb.png");
 
 	this->db_list = std::make_unique<DbTree>(10, 50, 200, 520);
+
+	this->db_list->update_schema(db_helper->get_schema());
+
+	this->db_list->init_tree();
 	///
 	// Fl_PNG_Image* image = new Fl_PNG_Image("../image/db.png");
 	// Fl_Tree_Item* node1 = db_list->add("Db List");
