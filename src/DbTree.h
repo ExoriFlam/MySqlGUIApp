@@ -4,7 +4,7 @@
 #include <FL/Fl_Tree.H>
 #include <FL/Fl_PNG_Image.H>
 
-#include <memory>
+
 
 #include "types.h"
 
@@ -12,20 +12,18 @@
 class DbTree : public Fl_Tree{
 
 public:
+
 	DbTree(int x, int y, int w, int h);
 
-	void update_schema(const DbSchema& new_schema);
-	void init_tree();
-//this->db_list = std::make_unique<Fl_Tree>(10, 50, 200, 520);
-private:
-	//std::unique_ptr<Fl_Tree> db_list;
-
-	std::unique_ptr<Fl_PNG_Image> db_img;
-	std::unique_ptr<Fl_PNG_Image> table_img;
-	std::unique_ptr<Fl_PNG_Image> atribute_img;
 	
+	void init_tree(const DbSchema& schema);
 
-	DbSchema schema;
+private:
+
+	Fl_PNG_Image db_img;
+	Fl_PNG_Image table_img;
+	Fl_PNG_Image atribute_img;
+
 };
 
 

@@ -5,9 +5,12 @@
 #include <FL/Fl_Tree.H>
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Box.H>
-#include "AddDbButton.h"
+
 #include "DbHelper.h"
+
+#include "NavPanel.h"
 #include "DbTree.h"
+
 #include <memory>
 
 class MainWindow : public Fl_Double_Window{
@@ -17,9 +20,13 @@ public:
 
 private:
 
-	std::unique_ptr<AddDbButton> add_db;
+	int width;
+	int height;
+	int pading;
 
-	// std::unique_ptr<Fl_Tree> db_list;
+	//std::unique_ptr<AddDbButton> add_db;
+
+	std::unique_ptr<NavPanel> nav_panel;
 	std::unique_ptr<DbTree> db_list;
 
 	
@@ -27,12 +34,12 @@ private:
 
 	std::unique_ptr<DbHelper> db_helper;
 
-	static void add_db_but_cb(Fl_Widget* o, void* v);
-	void add_db_but_cbi(AddDbButton* wid);
+	// static void add_db_but_cb(Fl_Widget* o, void* v);
+	// void add_db_but_cbi(AddDbButton* wid);
 
 
-	static void submit_db_name_but_cb(Fl_Widget* o, void* v);
-	void submit_db_name_but_cbi(Fl_Button* wid);
+	// static void submit_db_name_but_cb(Fl_Widget* o, void* v);
+	// void submit_db_name_but_cbi(Fl_Button* wid);
 };
 
 
