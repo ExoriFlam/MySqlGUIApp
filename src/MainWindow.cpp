@@ -38,14 +38,16 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 	
     nav_panel = std::make_unique<NavPanel>(pading, 30,200,30);
 
+    tabs = std::make_unique<TabControl>(220, 60, 570 ,500);
+
 	db_list = std::make_unique<DbTree>(pading, 60, 200, 500);
 
 	db_list->init_tree(db_helper->get_schema());
 
 	
     
-    db_managment_group = std::make_unique<Fl_Group>(220, 60, 570 ,500);
-    db_managment_group->box(FL_DOWN_FRAME);
+    // db_managment_group = std::make_unique<Fl_Group>(220, 60, 570 ,500);
+    // db_managment_group->box(FL_DOWN_FRAME);
 
     end();
 }

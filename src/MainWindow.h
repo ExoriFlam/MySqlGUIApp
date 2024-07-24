@@ -10,7 +10,7 @@
 
 #include "NavPanel.h"
 #include "DbTree.h"
-
+#include "TabControl.h"
 #include <memory>
 
 class MainWindow : public Fl_Double_Window{
@@ -24,11 +24,11 @@ private:
 	int height;
 	int pading;
 
-	//std::unique_ptr<AddDbButton> add_db;
+	
 
 	std::unique_ptr<NavPanel> nav_panel;
 	std::unique_ptr<DbTree> db_list;
-
+	std::unique_ptr<TabControl> tabs;
 	
 	std::unique_ptr<Fl_Group> db_managment_group;
 
