@@ -11,6 +11,7 @@
 #include "NavPanel.h"
 #include "DbTree.h"
 #include "TabControl.h"
+#include "HomeGroup.h"
 #include <memory>
 
 class MainWindow : public Fl_Double_Window{
@@ -30,10 +31,15 @@ private:
 	std::unique_ptr<DbTree> db_list;
 	std::unique_ptr<TabControl> tabs;
 	
-	std::unique_ptr<Fl_Group> db_managment_group;
 
 	std::unique_ptr<DbHelper> db_helper;
 
+
+
+	static void OnHome(Fl_Widget* w , void* v);
+	static void OnShowTabControl(Fl_Widget* w , void* v);
+	static void OnCreateDb(Fl_Widget* w , void* v);
+	
 	// static void add_db_but_cb(Fl_Widget* o, void* v);
 	// void add_db_but_cbi(AddDbButton* wid);
 

@@ -10,7 +10,8 @@
 #include <vector>
 #include "types.h"
 
-class DbHelper {
+
+class DbHelper{
 public:
     DbHelper(std::string server, std::string user, std::string password, std::string database);
 
@@ -18,11 +19,14 @@ public:
     bool create_db(std::string db_name);
 
     
+
     DbSchema get_schema();
+    
+    std::vector<std::string> get_db_names();
 
 private:
 
-	std::vector<std::string> get_db_names();
+	
 
     std::unique_ptr<sql::Connection> conn;
     std::string server;

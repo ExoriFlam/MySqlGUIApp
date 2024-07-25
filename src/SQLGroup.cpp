@@ -10,7 +10,7 @@ SQLGroup::SQLGroup(int x, int y, int w, int h):
 	//image(icon.get()->copy(15, 15));
 	label("SQL");
 
-	box(FL_DOWN_BOX);
+	//box(FL_DOWN_BOX);
 
 
 	end();

@@ -36,9 +36,16 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 
     
 	
+    tabs = std::make_unique<TabControl>(220, 30, 570 ,530);
+    tabs->add_cb_create_db_btn(OnCreateDb, this);
     nav_panel = std::make_unique<NavPanel>(pading, 30,200,30);
+	
+	nav_panel->add_cb_home_btn(OnHome, tabs.get());
+	nav_panel->add_cb_add_db_btn(OnShowTabControl, this);
 
-    tabs = std::make_unique<TabControl>(220, 60, 570 ,500);
+    
+
+    
 
 	db_list = std::make_unique<DbTree>(pading, 60, 200, 500);
 
@@ -52,6 +59,32 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
     end();
 }
 
+
+void MainWindow::OnHome(Fl_Widget* w, void* v)
+{
+	TabControl* tabs = (TabControl*)v;
+    tabs->show_home(); 
+}
+
+void MainWindow::OnShowTabControl(Fl_Widget* w , void * v)
+{
+	MainWindow* win = (MainWindow*)v;
+    win->tabs->show_tabs(); 
+    win->tabs->show_db_names(win->db_helper->get_db_names());
+}
+
+void MainWindow::OnCreateDb(Fl_Widget* w , void * v)
+{
+	MainWindow* win = (MainWindow*)v;
+    std::string db_name = win->tabs->get_input_db_name();
+
+    if(!win->db_helper->create_db(db_name))
+    {
+    	#ifdef DEBUG
+    	std::cout << "Fail create db";
+    	#endif
+    }  
+}
 // void MainWindow::add_db_but_cb(Fl_Widget* o, void* v)
 // {
 // 	MainWindow* win = (MainWindow*)v;

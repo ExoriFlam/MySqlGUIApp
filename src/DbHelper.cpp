@@ -101,7 +101,7 @@ DbSchema DbHelper::get_schema() {
             conn->setSchema(db_name);
             std::unique_ptr<sql::Statement> stmt(conn->createStatement());
 
-            // Получение списка таблиц
+           
             std::unique_ptr<sql::ResultSet> tables_res(stmt->executeQuery("SHOW TABLES"));
             Tables tables;
 
@@ -109,7 +109,7 @@ DbSchema DbHelper::get_schema() {
                 std::string table_name = tables_res->getString(1);
                 std::unique_ptr<sql::Statement> table_stmt(conn->createStatement());
 
-                // Получение списка атрибутов (столбцов) для каждой таблицы
+                
                 std::string columns_query = "SHOW COLUMNS FROM " + table_name;
                 std::unique_ptr<sql::ResultSet> columns_res(table_stmt->executeQuery(columns_query));
                 Atributes attributes;
@@ -128,3 +128,4 @@ DbSchema DbHelper::get_schema() {
     }
     return schema;
 }
+

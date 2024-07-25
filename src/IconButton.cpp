@@ -13,7 +13,7 @@ void IconButton::set_icon(const char* png_file_name)
 
 	if(img->w() > 0 && img->h() > 0)
 	{
-		this->image(img->copy(btn_w ,btn_h));
+		this->image(img->copy(btn_w-5 ,btn_h-5));
 	}
 	else
 	{

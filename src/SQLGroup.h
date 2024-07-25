@@ -1,7 +1,7 @@
 #ifndef SQLGROUP_H
 #define SQLGROUP_H
 #include <FL/Fl_Group.H>
-#include "IconLabelGroup.h"
+
 #include <memory>
 
 class SQLGroup : public Fl_Group{
@@ -12,8 +12,8 @@ public:
 
 private:
 
-	std::unique_ptr<IconLabelGroup> label_group;
 	
+
 };
 
 
