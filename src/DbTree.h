@@ -19,11 +19,17 @@ public:
 	void init_tree(const DbSchema& schema);
 
 	
+
 private:
+
+	//static void tree_callback(Fl_Widget* widget, void* data);
+	
 
 	Fl_PNG_Image db_img;
 	Fl_PNG_Image table_img;
 	Fl_PNG_Image atribute_img;
+
+	
 
 };
 

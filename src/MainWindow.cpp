@@ -51,6 +51,8 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 
 	db_list->init_tree(db_helper->get_schema());
 
+	db_list->callback(on_click_tree, this);
+
 	
     
     // db_managment_group = std::make_unique<Fl_Group>(220, 60, 570 ,500);
@@ -92,6 +94,59 @@ void MainWindow::on_refresh_btn_click(Fl_Widget* w , void* v)
 	win->refresh_all_visible_widgets();
 }
 
+void MainWindow::refresh_all_visible_widgets()
+{
+	db_list->init_tree(db_helper->get_schema());
+	tabs->show_db_names(db_helper->get_db_names());
+	
+}
+
+void MainWindow::on_click_tree(Fl_Widget* w, void* v)
+{
+
+	MainWindow* win = (MainWindow*) v;
+
+	
+    if (Fl::event() == FL_PUSH) // Проверка события нажатия кнопки
+    {
+        Fl_Tree_Item* item = win->db_list->callback_item();
+
+        if (item)
+        {
+        	win->tabs->show_tabs(); 
+        	std::string* type = (std::string*)(item->user_data());//
+        	if(type)
+        	{
+        		if(*type == "db")
+	        	{
+	        		win->tabs->show_structure_db();
+	        	}
+	        	else if(*type == "table")
+	        	{
+	        		win->tabs->show_structure_table();
+	        	}
+	        	else if(*type == "atribute")
+	        	{
+	        		win->tabs->show_structure_atribute();
+	        	}
+
+
+        	}
+        	
+
+            //std::cout << "Callback triggered for item: " << item->label() << std::endl;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
 
 
 void MainWindow::recursive_redraw(Fl_Widget* widget)
@@ -113,14 +168,5 @@ void MainWindow::recursive_redraw(Fl_Widget* widget)
 	}
 }
 
-void MainWindow::refresh_all_visible_widgets()
-{
-	db_list->init_tree(db_helper->get_schema());
-	//tabs->show_tabs();
-	//tabs->redraw();
-	tabs->show_db_names(db_helper->get_db_names());
 
-
-	
-}
 

@@ -23,6 +23,10 @@ public:
 	void add_cb_create_db_btn(Fl_Callback* cb, void* v);
 	std::string get_input_db_name();
 
+	void show_structure_db();
+	void show_structure_table();
+	void show_structure_atribute();
+
 private:
 
 	std::unique_ptr<StructureGroup> structure_group;

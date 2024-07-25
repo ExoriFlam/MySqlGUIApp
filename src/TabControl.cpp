@@ -53,6 +53,21 @@ std::string TabControl::get_input_db_name()
 {
 	return structure_group->get_input_db_name();
 }
+
+
+
+void TabControl::show_structure_db()
+{
+	structure_group->show_db_group();
+}
+void TabControl::show_structure_table()
+{
+	structure_group->show_table_group();
+}
+void TabControl::show_structure_atribute()
+{
+	structure_group->show_atribute_group();
+}
 // int TabControl::handle(int event)
 // {
 //     if (event == FL_PUSH)

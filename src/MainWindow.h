@@ -42,7 +42,9 @@ private:
 	static void on_show_tab_control(Fl_Widget* w , void* v);
 	static void on_refresh_btn_click(Fl_Widget* w , void * v);
 
-	//DbTree btsn actions
+	//DbTree btn actions
+	static void on_click_tree(Fl_Widget* w, void* v);
+
 
 	//structure view
 	////Databases
