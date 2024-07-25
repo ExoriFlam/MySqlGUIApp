@@ -27,22 +27,22 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 
 	//
 	Fl_Menu_Bar* menu = new Fl_Menu_Bar(0, 0, width, 25);
-    menu->add("File/New", 0, NULL);
-    menu->add("File/Open", 0, NULL);
-    menu->add("File/Quit", 0, NULL);
+	menu->add("File/New", 0, NULL);
+	menu->add("File/Open", 0, NULL);
+	menu->add("File/Quit", 0, NULL);
     //
-    Fl_Box* status = new Fl_Box(pading, height - 30, width - (pading * 2), 25, "Status: Ready");
-    status->box(FL_DOWN_FRAME);
+	Fl_Box* status = new Fl_Box(pading, height - 30, width - (pading * 2), 25, "Status: Ready");
+	status->box(FL_DOWN_FRAME);
 
     
 	
-    tabs = std::make_unique<TabControl>(220, 30, 570 ,530);
-    tabs->add_cb_create_db_btn(OnCreateDb, this);
-    nav_panel = std::make_unique<NavPanel>(pading, 30,200,30);
+	tabs = std::make_unique<TabControl>(220, 30, 570 ,530);
+	tabs->add_cb_create_db_btn(on_create_db_btn_click, this);
+	nav_panel = std::make_unique<NavPanel>(pading, 30,200,30);
 	
-	nav_panel->add_cb_home_btn(OnHome, tabs.get());
-	nav_panel->add_cb_add_db_btn(OnShowTabControl, this);
-
+	nav_panel->add_cb_home_btn(on_home_btn_click, tabs.get());
+	nav_panel->add_cb_add_db_btn(on_show_tab_control, this);
+	nav_panel->add_cb_refresh_btn(on_refresh_btn_click,this);
     
 
     
@@ -60,23 +60,23 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 }
 
 
-void MainWindow::OnHome(Fl_Widget* w, void* v)
+void MainWindow::on_home_btn_click(Fl_Widget* w, void* v)
 {
 	TabControl* tabs = (TabControl*)v;
-    tabs->show_home(); 
+	tabs->show_home(); 
 }
 
-void MainWindow::OnShowTabControl(Fl_Widget* w , void * v)
+void MainWindow::on_show_tab_control(Fl_Widget* w , void * v)
 {
 	MainWindow* win = (MainWindow*)v;
-    win->tabs->show_tabs(); 
-    win->tabs->show_db_names(win->db_helper->get_db_names());
+	win->tabs->show_tabs(); 
+	win->tabs->show_db_names(win->db_helper->get_db_names());
 }
 
-void MainWindow::OnCreateDb(Fl_Widget* w , void * v)
+void MainWindow::on_create_db_btn_click(Fl_Widget* w , void * v)
 {
 	MainWindow* win = (MainWindow*)v;
-    std::string db_name = win->tabs->get_input_db_name();
+	std::string db_name = win->tabs->get_input_db_name();
 
     if(!win->db_helper->create_db(db_name))
     {
@@ -85,39 +85,42 @@ void MainWindow::OnCreateDb(Fl_Widget* w , void * v)
     	#endif
     }  
 }
-// void MainWindow::add_db_but_cb(Fl_Widget* o, void* v)
-// {
-// 	MainWindow* win = (MainWindow*)v;
-// 	AddDbButton* btn = (AddDbButton*)o;
-// 	win->add_db_but_cbi(btn);
-// }
 
-// void MainWindow::add_db_but_cbi(AddDbButton* wid)
-// {
-// 	this->db_managment_group->clear(); 
-//     this->db_managment_group->redraw(); 
-// 	this->db_managment_group->begin();
+void MainWindow::on_refresh_btn_click(Fl_Widget* w , void* v)
+{
+	MainWindow* win = (MainWindow*)v;
+	win->refresh_all_visible_widgets();
+}
 
-// 	Fl_Input* db_name_input = new Fl_Input(305, 80, 260, 30, "DB Name:");
-// 	db_name_input->maximum_size(64);
+
+
+void MainWindow::recursive_redraw(Fl_Widget* widget)
+{
     
-//     Fl_Button* submit_btn = new Fl_Button(305, 160, 260, 30, "Submit");
-//     submit_btn->callback(submit_db_name_but_cb, this);
-//     this->db_managment_group->end();
-//     this->db_managment_group->redraw();
+	if(widget->visible())
+	{
+		widget->redraw(); 
+		std::cout << "1\n";
+        
+		if (Fl_Group* group = dynamic_cast<Fl_Group*>(widget))
+        {
+            
+            for (int i = 0; i < group->children(); ++i)
+            {
+                recursive_redraw(group->child(i));
+            }
+        }
+	}
+}
 
-// }
+void MainWindow::refresh_all_visible_widgets()
+{
+	db_list->init_tree(db_helper->get_schema());
+	//tabs->show_tabs();
+	//tabs->redraw();
+	tabs->show_db_names(db_helper->get_db_names());
 
-// void MainWindow::submit_db_name_but_cb(Fl_Widget* o, void* v)
-// {
-// 	MainWindow* win = (MainWindow*)v;
-// 	Fl_Button* btn = (AddDbButton*)o;
-// 	win->submit_db_name_but_cbi(btn);
-// }
 
-// void MainWindow::submit_db_name_but_cbi(Fl_Button* wid)
-// {
-// 	Fl_Input* input = (Fl_Input*)db_managment_group->child(0);
-// 	std::string db_name = input->value();
-// 	this->db_helper->create_db(db_name);
-// }
+	
+}
+

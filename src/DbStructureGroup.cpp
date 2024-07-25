@@ -48,6 +48,8 @@ void DbStructureGroup::show_dbs(const std::vector<std::string>& db_names)
 	}
 
 	rows.clear();
+	table->clear();
+	
 	rows.reserve(db_names.size());
 
 	for (int i = 0; i < db_names.size(); ++i) {

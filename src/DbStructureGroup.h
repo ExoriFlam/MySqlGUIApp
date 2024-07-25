@@ -19,8 +19,11 @@ public:
 	DbStructureGroup(int x ,int y ,int w , int h);
 
 	void show_dbs(const std::vector<std::string>& db_names);
+
 	void add_cb_create_db_btn(Fl_Callback* cb, void* v);
+
 	std::string get_input_value();
+	
 private:
 	std::unique_ptr<Fl_Box> header;
 

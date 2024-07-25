@@ -20,7 +20,7 @@ bool DbHelper::connect(){
 
         if (!conn->isValid())
         {
-        	#ifdef DEBUG
+            #ifdef DEBUG
             std::cerr << "Connection failed" << std::endl;
             #endif
 
@@ -30,7 +30,7 @@ bool DbHelper::connect(){
     }
     catch (sql::SQLException &e)
     {
-    	#ifdef DEBUG
+        #ifdef DEBUG
         std::cerr << "SQLException: " << e.what() << std::endl;
         #endif
         return false;

@@ -3,21 +3,44 @@
 StructureGroup::StructureGroup(int x, int y, int w, int h):
 	Fl_Group(x, y, w, h)
 {
-	//label_group = std::make_unique<IconLabelGroup>(x, y, w, h, "../image/home.png", "Structure");
 	label("Structure");
+
 	db_struct_gr = std::make_unique<DbStructureGroup>(x, y, w, h);
-	//image(label_group.get());
-	//icon = std::make_unique<Fl_PNG_Image>("../image/home.png");
+	table_struct_gr = std::make_unique<TableStructureGroup>(x, y, w, h);
+	atribute_struct_gr = std::make_unique<AtributeStructureGroup>(x, y, w, h);
 
-	//image(icon.get()->copy(15, 15));
-	//label("Structure");
-
-	//box(FL_DOWN_BOX);
-
+	db_struct_gr->hide();
+	table_struct_gr->hide();
+	atribute_struct_gr->hide();
 
 	end();
 	
 }
+
+
+void StructureGroup::show_db_group()
+{
+
+	table_struct_gr->hide();
+	atribute_struct_gr->hide();
+	db_struct_gr->show();
+	
+}
+
+void StructureGroup::show_table_group()
+{
+	atribute_struct_gr->hide();
+	db_struct_gr->hide();
+	table_struct_gr->show();
+}
+
+void StructureGroup::show_atribute_group()
+{
+	db_struct_gr->hide();
+	table_struct_gr->hide();
+	atribute_struct_gr->show();
+}
+
 
 void StructureGroup::show_dbs(const std::vector<std::string>& db_names)
 {

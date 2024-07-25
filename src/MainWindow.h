@@ -34,18 +34,24 @@ private:
 
 	std::unique_ptr<DbHelper> db_helper;
 
+	void recursive_redraw(Fl_Widget* widget);
+	void refresh_all_visible_widgets();
+
+	//navbar btns actions
+	static void on_home_btn_click(Fl_Widget* w , void* v);
+	static void on_show_tab_control(Fl_Widget* w , void* v);
+	static void on_refresh_btn_click(Fl_Widget* w , void * v);
+
+	//DbTree btsn actions
+
+	//structure view
+	////Databases
+	static void on_create_db_btn_click(Fl_Widget* w , void* v);
+	////Tables
+	////Atributes
 
 
-	static void OnHome(Fl_Widget* w , void* v);
-	static void OnShowTabControl(Fl_Widget* w , void* v);
-	static void OnCreateDb(Fl_Widget* w , void* v);
-	
-	// static void add_db_but_cb(Fl_Widget* o, void* v);
-	// void add_db_but_cbi(AddDbButton* wid);
 
-
-	// static void submit_db_name_but_cb(Fl_Widget* o, void* v);
-	// void submit_db_name_but_cbi(Fl_Button* wid);
 };
 
 

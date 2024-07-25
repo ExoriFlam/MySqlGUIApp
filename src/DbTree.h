@@ -18,6 +18,7 @@ public:
 	
 	void init_tree(const DbSchema& schema);
 
+	
 private:
 
 	Fl_PNG_Image db_img;

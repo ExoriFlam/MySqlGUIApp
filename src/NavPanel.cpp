@@ -29,3 +29,8 @@ void NavPanel::add_cb_add_db_btn(Fl_Callback* cb, void* v)
 {
 	add_db->callback(cb, v);
 }
+
+void NavPanel::add_cb_refresh_btn(Fl_Callback* cb, void* v)
+{
+	refresh->callback(cb, v);
+}

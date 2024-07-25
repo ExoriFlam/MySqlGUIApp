@@ -2,6 +2,8 @@
 #define STRUCTGROUP_H
 #include <FL/Fl_Group.H>
 #include "DbStructureGroup.h"
+#include "TableStructureGroup.h"
+#include "AtributeStructureGroup.h"
 #include <string>
 #include <memory>
 
@@ -15,9 +17,15 @@ public:
     void show_dbs(const std::vector<std::string>& db_names);
     void add_cb_create_db_btn(Fl_Callback* cb, void* v);
     std::string get_input_db_name();
+
+    void show_db_group();
+    void show_table_group();
+    void show_atribute_group();
+
 private:
 	std::unique_ptr<DbStructureGroup> db_struct_gr;
-	
+	std::unique_ptr<TableStructureGroup> table_struct_gr;
+	std::unique_ptr<AtributeStructureGroup> atribute_struct_gr;
 };
 
 

@@ -20,6 +20,8 @@ void DbTree::init_tree(const DbSchema& schema)
 		#endif
 		return;
 	}
+	clear();
+	
 	for(const auto& dbkv : schema)
 	{
 
@@ -51,5 +53,6 @@ void DbTree::init_tree(const DbSchema& schema)
 		}
 
 	}
-	
+	first()->label("Db List");
 }
+

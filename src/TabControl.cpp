@@ -30,14 +30,17 @@ void TabControl::show_tabs()
 {
 	sql_group->show();
 	structure_group->show();
+	structure_group->show_db_group();
 	home_group->hide();
-	home_group->redraw();
+	structure_group->redraw();
 	this->activate();
 }
 
 void TabControl::show_db_names(const std::vector<std::string>& db_names)
 {
+	structure_group->redraw();
 	structure_group->show_dbs(db_names);
+	
 }
 
 
