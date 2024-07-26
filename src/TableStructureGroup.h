@@ -5,7 +5,7 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Button.H>
-
+#include "TableList.h"
 #include <memory>
 
 class TableStructureGroup : public Fl_Group{
@@ -28,7 +28,9 @@ private:
 
 	std::unique_ptr<Fl_Button> btn_create_table;
 	
+	std::unique_ptr<Fl_Box> line;
 
+	std::unique_ptr<TableList> table_list;
 	//std::unique_ptr<Fl_Scroll> table;
 
 	//std::vector<std::pair<Fl_Box*, Fl_Box*>> rows;

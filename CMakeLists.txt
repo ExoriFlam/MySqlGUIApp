@@ -11,6 +11,9 @@ link_directories(/usr/lib/mysql-cppconn-8)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
+
+
+
 file(GLOB SOURCES "src/*.cpp")
 
 add_executable(MySqlGUIApp ${SOURCES})

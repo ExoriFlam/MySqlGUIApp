@@ -120,6 +120,7 @@ void MainWindow::on_click_tree(Fl_Widget* w, void* v)
         		if(*type == "db")
 	        	{
 	        		win->tabs->show_structure_db();
+	        		win->tabs->show_db_names(win->db_helper->get_db_names());
 	        	}
 	        	else if(*type == "table")
 	        	{
