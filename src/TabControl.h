@@ -6,12 +6,12 @@
 #include "StructureGroup.h"
 #include "SQLGroup.h"
 #include <memory>
-
+#include "EventSystem.h"
 class TabControl : public Fl_Tabs{
 
 public:
 
-	TabControl(int x,int y,int  w,int h);
+	TabControl(int x,int y,int  w,int h, std::shared_ptr<EventSystem> e_sys);
 
 	// int handle(int event) override;
 
@@ -20,7 +20,7 @@ public:
 
 	void show_db_names(const std::vector<std::string>& db_names);
 
-	void add_cb_create_db_btn(Fl_Callback* cb, void* v);
+	//void add_cb_create_db_btn(Fl_Callback* cb, void* v);
 	std::string get_input_db_name();
 
 	void show_structure_db();

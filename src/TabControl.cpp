@@ -1,9 +1,9 @@
 #include "TabControl.h"
 #include <iostream>
-TabControl::TabControl(int x, int y, int w, int h):
+TabControl::TabControl(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys):
 	Fl_Tabs(x, y, w, h), structure_group(nullptr), sql_group(nullptr)
 {
-	structure_group = std::make_unique<StructureGroup>(x , y + 25, w , h );
+	structure_group = std::make_unique<StructureGroup>(x , y + 25, w , h, e_sys);
 	add(structure_group.get());
 	
 	sql_group = std::make_unique<SQLGroup>(x , y + 25, w , h );
@@ -44,10 +44,10 @@ void TabControl::show_db_names(const std::vector<std::string>& db_names)
 }
 
 
-void TabControl::add_cb_create_db_btn(Fl_Callback* cb, void* v)
-{
-	structure_group->add_cb_create_db_btn(cb, v);
-}
+// void TabControl::add_cb_create_db_btn(Fl_Callback* cb, void* v)
+// {
+// 	structure_group->add_cb_create_db_btn(cb, v);
+// }
 
 std::string TabControl::get_input_db_name()
 {

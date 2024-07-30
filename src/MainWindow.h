@@ -7,7 +7,7 @@
 #include <FL/Fl_Box.H>
 
 #include "DbHelper.h"
-
+#include "EventSystem.h"
 #include "NavPanel.h"
 #include "DbTree.h"
 #include "TabControl.h"
@@ -30,11 +30,11 @@ private:
 	std::unique_ptr<NavPanel> nav_panel;
 	std::unique_ptr<DbTree> db_list;
 	std::unique_ptr<TabControl> tabs;
-	
+	std::shared_ptr<EventSystem> event_sys;
 
 	std::unique_ptr<DbHelper> db_helper;
 
-	void recursive_redraw(Fl_Widget* widget);
+	// void recursive_redraw(Fl_Widget* widget);
 	void refresh_all_visible_widgets();
 
 	//navbar btns actions
@@ -48,7 +48,7 @@ private:
 
 	//structure view
 	////Databases
-	static void on_create_db_btn_click(Fl_Widget* w , void* v);
+	//static void on_create_db_btn_click(Fl_Widget* w , void* v);
 	////Tables
 	////Atributes
 

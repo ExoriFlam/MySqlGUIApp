@@ -9,6 +9,6 @@ using TableName = std::string;
 
 using Tables = std::unordered_map<TableName, Atributes>;
 using DbName = std::string;
-using DbSchema = std::unordered_map<DbName, Tables>;
+using DbSchema = std::unordered_map<DbName, Tables>;// vector
 
 #endif

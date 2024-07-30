@@ -4,6 +4,7 @@
 #include "DbStructureGroup.h"
 #include "TableStructureGroup.h"
 #include "AtributeStructureGroup.h"
+#include "EventSystem.h"
 #include <string>
 #include <memory>
 
@@ -11,11 +12,11 @@ class StructureGroup : public Fl_Group{
 
 public:
 
-	StructureGroup(int x ,int y ,int w , int h);
+	StructureGroup(int x ,int y ,int w , int h, std::shared_ptr<EventSystem> e_sys);
 	// void show() override;
 
     void show_dbs(const std::vector<std::string>& db_names);
-    void add_cb_create_db_btn(Fl_Callback* cb, void* v);
+    //void add_cb_create_db_btn(Fl_Callback* cb, void* v);
     std::string get_input_db_name();
 
     void show_db_group();

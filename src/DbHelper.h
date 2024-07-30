@@ -9,10 +9,13 @@
 #include <string>
 #include <vector>
 #include "types.h"
-
+#include "EventSystem.h"
+#include <functional>
 
 class DbHelper{
 public:
+	
+
     DbHelper(std::string server, std::string user, std::string password, std::string database);
 
     bool connect();
@@ -23,16 +26,19 @@ public:
     DbSchema get_schema();
     
     std::vector<std::string> get_db_names();
+   
 
 private:
 
-	
+	void notyfy_listeners(const std::string& event_name, const std::string& message);
 
     std::unique_ptr<sql::Connection> conn;
     std::string server;
     std::string user;
     std::string password;
     std::string database;
+
+    
 };
 
 #endif

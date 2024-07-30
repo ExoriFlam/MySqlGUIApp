@@ -5,7 +5,7 @@
 ///
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/Fl_Box.H>
-
+#include <FL/Fl_Input.H>
 
 #include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Tree_Item.H>
@@ -13,6 +13,8 @@
 MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 	Fl_Double_Window(x, y, w, h, l), width(w), height(h), pading(10)
 {
+	event_sys = std::make_shared<EventSystem>();
+
 	db_helper = std::make_unique<DbHelper>("localhost", "root", "1111", "");
 
 	if(!db_helper->connect())
@@ -36,8 +38,23 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 
     
 	
-	tabs = std::make_unique<TabControl>(220, 30, 570 ,530);
-	tabs->add_cb_create_db_btn(on_create_db_btn_click, this);
+	tabs = std::make_unique<TabControl>(220, 30, 570 ,530, event_sys);
+	//tabs->add_cb_create_db_btn(on_create_db_btn_click, this);
+	event_sys->subscribe("on_click_create_db_btn", [this](Fl_Widget* w) {
+		Fl_Input* input = (Fl_Input*)w;
+		if(input)
+		{
+			std::string db_name = input->value();
+			if(!db_helper->create_db(db_name))
+			{
+				#ifdef DEBUG
+	 			std::cout << "Fail create db";
+	    		#endif
+			}
+		}
+		
+
+		});
 	nav_panel = std::make_unique<NavPanel>(pading, 30,200,30);
 	
 	nav_panel->add_cb_home_btn(on_home_btn_click, tabs.get());
@@ -75,18 +92,20 @@ void MainWindow::on_show_tab_control(Fl_Widget* w , void * v)
 	win->tabs->show_db_names(win->db_helper->get_db_names());
 }
 
-void MainWindow::on_create_db_btn_click(Fl_Widget* w , void * v)
-{
-	MainWindow* win = (MainWindow*)v;
-	std::string db_name = win->tabs->get_input_db_name();
+// void MainWindow::on_create_db_btn_click(Fl_Widget* w , void * v)
+// {
+// 	MainWindow* win = (MainWindow*)v;
+// 	std::string db_name = win->tabs->get_input_db_name();
 
-    if(!win->db_helper->create_db(db_name))
-    {
-    	#ifdef DEBUG
-    	std::cout << "Fail create db";
-    	#endif
-    }  
-}
+//     if(!win->db_helper->create_db(db_name))
+//     {
+//     	#ifdef DEBUG
+//     	std::cout << "Fail create db";
+//     	#endif
+//     }  
+
+//     e_sys->trigger("on_click_create_db_btn", btn_create_db);
+// }
 
 void MainWindow::on_refresh_btn_click(Fl_Widget* w , void* v)
 {
@@ -150,24 +169,24 @@ void MainWindow::on_click_tree(Fl_Widget* w, void* v)
 
 
 
-void MainWindow::recursive_redraw(Fl_Widget* widget)
-{
+// void MainWindow::recursive_redraw(Fl_Widget* widget)
+// {
     
-	if(widget->visible())
-	{
-		widget->redraw(); 
-		std::cout << "1\n";
+// 	if(widget->visible())
+// 	{
+// 		widget->redraw(); 
+// 		std::cout << "1\n";
         
-		if (Fl_Group* group = dynamic_cast<Fl_Group*>(widget))
-        {
+// 		if (Fl_Group* group = dynamic_cast<Fl_Group*>(widget))
+//         {
             
-            for (int i = 0; i < group->children(); ++i)
-            {
-                recursive_redraw(group->child(i));
-            }
-        }
-	}
-}
+//             for (int i = 0; i < group->children(); ++i)
+//             {
+//                 recursive_redraw(group->child(i));
+//             }
+//         }
+// 	}
+// }
 
 
 

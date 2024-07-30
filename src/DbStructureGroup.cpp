@@ -1,9 +1,10 @@
 #include "DbStructureGroup.h"
 #include <iostream>
 
-DbStructureGroup::DbStructureGroup(int x, int y, int w, int h):
+DbStructureGroup::DbStructureGroup(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys):
 	Fl_Group(x, y, w, h)
 {
+	event_sys = e_sys;
 
 	header = std::make_unique<Fl_Box>(x + 50, y + 10, 50, 30, "Databases");
 	header->labelfont(FL_HELVETICA_BOLD);
@@ -20,7 +21,9 @@ DbStructureGroup::DbStructureGroup(int x, int y, int w, int h):
 	
 
 	btn_create_db = std::make_unique<Fl_Button>(x + 240, y + 60, 60, 30, "Create");
-
+	//
+	btn_create_db->callback(add_cb_create_db_btn, this);
+	//
 
 	databases_header = std::make_unique<Fl_Box>(x + 10, y + 110, 200, 30, "Databases");
 	databases_header->box(FL_UP_BOX);
@@ -79,9 +82,12 @@ void DbStructureGroup::show_dbs(const std::vector<std::string>& db_names)
 
 }
 
-void DbStructureGroup::add_cb_create_db_btn(Fl_Callback* cb, void* v)
+void DbStructureGroup::add_cb_create_db_btn(Fl_Widget* widget, void* v)
 {
-	btn_create_db->callback(cb, v);
+	DbStructureGroup* db_s = (DbStructureGroup*) v;
+
+	db_s->event_sys->trigger("on_click_create_db_btn", db_s->input_create_db.get());
+	//btn_create_db->callback(cb, v);
 }
 
 std::string DbStructureGroup::get_input_value()

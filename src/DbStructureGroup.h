@@ -12,19 +12,22 @@
 #include <memory>
 #include <vector>
 #include <utility>
+#include "EventSystem.h"
 class DbStructureGroup : public Fl_Group{
 
 public:
 
-	DbStructureGroup(int x ,int y ,int w , int h);
+	DbStructureGroup(int x ,int y ,int w , int h, std::shared_ptr<EventSystem> e_sys);
 
 	void show_dbs(const std::vector<std::string>& db_names);
 
-	void add_cb_create_db_btn(Fl_Callback* cb, void* v);
+	static void add_cb_create_db_btn(Fl_Widget* widget, void* v);
 
 	std::string get_input_value();
 	
 private:
+	std::shared_ptr<EventSystem> event_sys;
+
 	std::unique_ptr<Fl_Box> header;
 
 	std::unique_ptr<Fl_Box> label_create_db;
