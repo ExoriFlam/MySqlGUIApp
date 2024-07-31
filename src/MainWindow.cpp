@@ -55,6 +55,18 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 		
 
 		});
+	
+
+
+	event_sys->subscribe("on_click_row_action", [this](Fl_Widget* w){
+		std::cout << "123";
+		IconLabelGroup* l =  (IconLabelGroup*) w;
+		if(l)
+		{
+			std::cout << "321";
+			std::cout<< l->label();
+		}
+	});
 	nav_panel = std::make_unique<NavPanel>(pading, 30,200,30);
 	
 	nav_panel->add_cb_home_btn(on_home_btn_click, tabs.get());

@@ -1,6 +1,7 @@
 #include <FL/Fl.H>
 #include "MainWindow.h"
 #define DEBUG
+
 #include <iostream>
 
 int main(int argc, char **argv) {
@@ -12,7 +13,7 @@ int main(int argc, char **argv) {
     Fl::visual(FL_DOUBLE | FL_INDEX);
 
     window.show(argc, argv);
-    
+   
 
     return Fl::run();
 }

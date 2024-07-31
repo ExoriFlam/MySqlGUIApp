@@ -13,6 +13,9 @@
 #include <vector>
 #include <utility>
 #include "EventSystem.h"
+#include "DataList.h"
+#include "DataRow.h"
+
 class DbStructureGroup : public Fl_Group{
 
 public:
@@ -26,23 +29,28 @@ public:
 	std::string get_input_value();
 	
 private:
+	
 	std::shared_ptr<EventSystem> event_sys;
 
-	std::unique_ptr<Fl_Box> header;
+	Fl_Box header;
 
-	std::unique_ptr<Fl_Box> label_create_db;
+	Fl_Box label_create_db;
 
-	std::unique_ptr<Fl_Input> input_create_db;
+	Fl_Input input_create_db;
 
-	std::unique_ptr<Fl_Button> btn_create_db;
+	Fl_Button btn_create_db;
 	
-	std::unique_ptr<Fl_Box> databases_header;
-	std::unique_ptr<Fl_Box> action_header;
-	//std::unique_ptr<Fl_Pack> table;
+	Fl_Box line;
+	
+	std::unique_ptr<DataList> data_list;
 
-	std::unique_ptr<Fl_Scroll> table;
+	// std::unique_ptr<Fl_Box> databases_header;
+	// std::unique_ptr<Fl_Box> action_header;
+	// //std::unique_ptr<Fl_Pack> table;
 
-	std::vector<std::pair<Fl_Box*, Fl_Box*>> rows;
+	// std::unique_ptr<Fl_Scroll> table;
+
+	// std::vector<std::pair<Fl_Box*, Fl_Box*>> rows;
 
 
 };

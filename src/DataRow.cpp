@@ -1,0 +1,44 @@
+#include "DataRow.h"
+
+DataRow::DataRow(int x, int y, int w, int h, const std::string& _name, std::shared_ptr<EventSystem> e_sys)
+	:Fl_Group(x, y, w, h), check(0, 0, 0, 0), name(0, 0, 0, 0)
+{
+	begin();
+	event_sys = e_sys;
+	check.resize(x, y, 15, 30);
+	name.resize(x + 40, y, 220, 30);
+	name.copy_label(_name.c_str());
+	cur_x = 280;
+	
+	box(FL_THIN_DOWN_BOX);
+	end();
+}
+
+void DataRow::add_action(const std::string& image_path, const std::string& label)
+{
+
+	int width = label.length() * 10 + 10;
+    IconLabelGroup* action = new IconLabelGroup(this->x() + cur_x, this->y(), width, 30, image_path, label);
+
+    cur_x += width;
+    action->callback(on_click_row_action, this);
+    actions.push_back(action);
+    this->add(action);
+
+}
+
+void DataRow::on_click_row_action(Fl_Widget* widget, void* v)
+{
+	auto row = (DataRow*) v;
+	
+	row->event_sys->trigger("on_click_row_action", widget);
+}
+
+
+DataRow:: ~DataRow()
+{
+	for (auto* action : actions)
+	{
+        delete action;
+    }
+}
