@@ -40,34 +40,8 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 	
 	tabs = std::make_unique<TabControl>(220, 30, 570 ,530, event_sys);
 	//tabs->add_cb_create_db_btn(on_create_db_btn_click, this);
-	event_sys->subscribe("on_click_create_db_btn", [this](Fl_Widget* w) {
-		Fl_Input* input = (Fl_Input*)w;
-		if(input)
-		{
-			std::string db_name = input->value();
-			if(!db_helper->create_db(db_name))
-			{
-				#ifdef DEBUG
-	 			std::cout << "Fail create db";
-	    		#endif
-			}
-		}
-		
 
-		});
-	
-
-
-	event_sys->subscribe("on_click_row_action", [this](Fl_Widget* w){
-		std::cout << "123";
-		IconLabelGroup* l =  (IconLabelGroup*) w;
-		if(l)
-		{
-			std::cout << "321";
-			std::cout<< l->label();
-		}
-	});
-	nav_panel = std::make_unique<NavPanel>(pading, 30,200,30);
+	nav_panel = std::make_unique<NavPanel>(pading, 30, 200, 30);
 	
 	nav_panel->add_cb_home_btn(on_home_btn_click, tabs.get());
 	nav_panel->add_cb_add_db_btn(on_show_tab_control, this);
@@ -88,6 +62,58 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
     // db_managment_group->box(FL_DOWN_FRAME);
 
     end();
+
+
+    event_sys->subscribe("on_click_create_db_btn", [this](Fl_Widget* w) {
+		Fl_Input* input = (Fl_Input*)w;
+		if(input)
+		{
+			std::string db_name = input->value();
+
+			if(!db_helper->create_db(db_name))
+			{
+				#ifdef DEBUG
+	 			std::cout << "Fail create db";
+	    		#endif
+			}
+		}
+		
+
+	});
+	
+
+
+	event_sys->subscribe("on_click_row_action", [this](Fl_Widget* w){
+		
+		IconLabelGroup* l =  (IconLabelGroup*) w;
+		if(l)
+		{
+			std::string label= l->get_label();
+			
+			if(label == "Structure")
+			{
+				
+			}
+			else if(label == "Insert")
+			{
+
+			}
+			else if(label == "Drop")
+			{
+				std::string db_name = l->get_row_data();
+
+				if(!db_helper->drop_db(db_name))
+				{
+					#ifdef DEBUG
+		 			std::cout << "Fail drop db";
+		    		#endif
+				}
+			}
+		}
+	});
+
+
+
 }
 
 
@@ -97,11 +123,12 @@ void MainWindow::on_home_btn_click(Fl_Widget* w, void* v)
 	tabs->show_home(); 
 }
 
-void MainWindow::on_show_tab_control(Fl_Widget* w , void * v)
+void MainWindow::on_show_tab_control(Fl_Widget* w , void* v)
 {
 	MainWindow* win = (MainWindow*)v;
-	win->tabs->show_tabs(); 
-	win->tabs->show_db_names(win->db_helper->get_db_names());
+	win->tabs->show_tabs();
+	win->event_sys->trigger("on_show_db_list", win); 
+	//win->tabs->show_db_names(win->db_helper->get_db_names());
 }
 
 // void MainWindow::on_create_db_btn_click(Fl_Widget* w , void * v)
@@ -123,12 +150,13 @@ void MainWindow::on_refresh_btn_click(Fl_Widget* w , void* v)
 {
 	MainWindow* win = (MainWindow*)v;
 	win->refresh_all_visible_widgets();
+	win->event_sys->trigger("on_show_db_list", win);
 }
 
 void MainWindow::refresh_all_visible_widgets()
 {
 	db_list->init_tree(db_helper->get_schema());
-	tabs->show_db_names(db_helper->get_db_names());
+	//tabs->show_db_names(db_helper->get_db_names());
 	
 }
 
@@ -138,7 +166,7 @@ void MainWindow::on_click_tree(Fl_Widget* w, void* v)
 	MainWindow* win = (MainWindow*) v;
 
 	
-    if (Fl::event() == FL_PUSH) // Проверка события нажатия кнопки
+    if (Fl::event() == FL_PUSH) 
     {
         Fl_Tree_Item* item = win->db_list->callback_item();
 
@@ -151,7 +179,8 @@ void MainWindow::on_click_tree(Fl_Widget* w, void* v)
         		if(*type == "db")
 	        	{
 	        		win->tabs->show_structure_db();
-	        		win->tabs->show_db_names(win->db_helper->get_db_names());
+	        		win->event_sys->trigger("on_show_db_list", win);
+	        		
 	        	}
 	        	else if(*type == "table")
 	        	{
@@ -162,43 +191,9 @@ void MainWindow::on_click_tree(Fl_Widget* w, void* v)
 	        		win->tabs->show_structure_atribute();
 	        	}
 
-
         	}
         	
-
-            //std::cout << "Callback triggered for item: " << item->label() << std::endl;
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-// void MainWindow::recursive_redraw(Fl_Widget* widget)
-// {
-    
-// 	if(widget->visible())
-// 	{
-// 		widget->redraw(); 
-// 		std::cout << "1\n";
-        
-// 		if (Fl_Group* group = dynamic_cast<Fl_Group*>(widget))
-//         {
-            
-//             for (int i = 0; i < group->children(); ++i)
-//             {
-//                 recursive_redraw(group->child(i));
-//             }
-//         }
-// 	}
-// }
-
-
 

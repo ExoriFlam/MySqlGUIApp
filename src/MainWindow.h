@@ -18,7 +18,7 @@ class MainWindow : public Fl_Double_Window{
 
 public:
 	MainWindow(int x, int y, int w, int h, const char* l);
-
+	std::unique_ptr<DbHelper> db_helper;
 private:
 
 	int width;
@@ -32,7 +32,7 @@ private:
 	std::unique_ptr<TabControl> tabs;
 	std::shared_ptr<EventSystem> event_sys;
 
-	std::unique_ptr<DbHelper> db_helper;
+	
 
 	// void recursive_redraw(Fl_Widget* widget);
 	void refresh_all_visible_widgets();

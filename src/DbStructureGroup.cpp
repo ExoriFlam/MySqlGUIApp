@@ -1,4 +1,5 @@
 #include "DbStructureGroup.h"
+#include "MainWindow.h"
 #include <iostream>
 
 DbStructureGroup::DbStructureGroup(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys):
@@ -33,8 +34,13 @@ DbStructureGroup::DbStructureGroup(int x, int y, int w, int h, std::shared_ptr<E
 	line.color(FL_BLACK);
 	line.box(FL_FLAT_BOX);
 
-	data_list = std::make_unique<DataList>(x + 10, y + 110, w-20, 340, e_sys);
-	data_list->set_header_name("Databases");
+	db_list = std::make_unique<DataList>(x + 10, y + 110, w-20, 340, e_sys);
+	db_list->set_header_name("Databases");
+
+	event_sys->subscribe("on_show_db_list",[this](Fl_Widget* w){
+		MainWindow* win = (MainWindow*) w;
+		show_dbs(win->db_helper->get_db_names());
+	});
 	//data_list.resize(x + 10, y + 110, w-20, 340);
 
 	// databases_header = std::make_unique<Fl_Box>(x + 10, y + 110, 200, 30, "Databases");
@@ -62,36 +68,7 @@ void DbStructureGroup::show_dbs(const std::vector<std::string>& db_names)
 		return;
 	}
 
-	// rows.clear();
-	// table->clear();
-	
-	// rows.reserve(db_names.size());
-
-	// for (int i = 0; i < db_names.size(); ++i) {
-
- //        auto box1 = new Fl_Box(x() + 10, y() + 145 + (i * 31), 200, 30);
- //        auto box2 = new Fl_Box(x() + 205, y() + 145 + (i * 31), 200, 30, "Check privileges" );
- //        box1->labelcolor(FL_BLUE);
- //        box1->labelfont(FL_HELVETICA_ITALIC);
- //        box1->labelsize(14);
- //        box1->copy_label(db_names[i].c_str());
- //        box1->box(FL_DOWN_BOX);
-
- //        box2->labelcolor(FL_BLUE);
- //        box2->labelfont(FL_HELVETICA_ITALIC);
- //        box2->labelsize(14);
- //        box2->box(FL_DOWN_BOX);
- //        if( i %  2 == 0)
- //        {
- //        	box1->color(FL_WHITE);
- //        	box2->color(FL_WHITE);
- //        }
-
- //        rows.emplace_back(box1, box2);
- //        table->add(box1);
- //        table->add(box2);
- //    }
-
+	db_list->add_rows(db_names);
 }
 
 void DbStructureGroup::add_cb_create_db_btn(Fl_Widget* widget, void* v)
@@ -102,7 +79,7 @@ void DbStructureGroup::add_cb_create_db_btn(Fl_Widget* widget, void* v)
 	
 }
 
-std::string DbStructureGroup::get_input_value()
-{
-	return std::string(input_create_db.value());
-}
+// std::string DbStructureGroup::get_input_value()
+// {
+// 	return std::string(input_create_db.value());
+// }

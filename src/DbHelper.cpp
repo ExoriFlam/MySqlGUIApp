@@ -131,3 +131,23 @@ DbSchema DbHelper::get_schema() {
     return schema;
 }
 
+
+
+ bool DbHelper::drop_db(std::string db_name)
+ {
+    try
+    {
+        std::unique_ptr<sql::Statement> stmt(conn->createStatement());
+        std::string query = "DROP DATABASE " + db_name;
+        stmt->execute(query);
+    }
+    catch(sql::SQLException &e)
+    {
+        #ifdef DEBUG
+        std::cerr << "SQLException: " << e.what() << std::endl;
+        #endif
+        return false;
+    }
+
+    return true;
+ }

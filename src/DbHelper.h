@@ -20,7 +20,7 @@ public:
 
     bool connect();
     bool create_db(std::string db_name);
-
+    bool drop_db(std::string db_name);
     
 
     DbSchema get_schema();
@@ -30,7 +30,7 @@ public:
 
 private:
 
-	void notyfy_listeners(const std::string& event_name, const std::string& message);
+	
 
     std::unique_ptr<sql::Connection> conn;
     std::string server;

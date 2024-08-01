@@ -11,8 +11,10 @@
 #include <FL/Fl_Scroll.H>
 #include <memory>
 #include <vector>
+#include <string>
 #include <utility>
 #include "EventSystem.h"
+
 #include "DataList.h"
 #include "DataRow.h"
 
@@ -26,8 +28,9 @@ public:
 
 	static void add_cb_create_db_btn(Fl_Widget* widget, void* v);
 
-	std::string get_input_value();
+	//std::string get_input_value();
 	
+
 private:
 	
 	std::shared_ptr<EventSystem> event_sys;
@@ -42,7 +45,7 @@ private:
 	
 	Fl_Box line;
 	
-	std::unique_ptr<DataList> data_list;
+	std::unique_ptr<DataList> db_list;
 
 	// std::unique_ptr<Fl_Box> databases_header;
 	// std::unique_ptr<Fl_Box> action_header;

@@ -8,7 +8,7 @@ DbTree::DbTree(int x, int y, int w, int h):
 	root_label("Db List");
 	
 	when(FL_WHEN_CHANGED);
-	//first()->label("Db List");
+	
 	
 }
 
@@ -64,20 +64,7 @@ void DbTree::init_tree(const DbSchema& schema)
 
 	}
 	root_label("Db List");
-	//first()->label("Db List");
+	
 }
 
-
-// void DbTree::tree_callback(Fl_Widget* widget, void* data)
-// {
-//     DbTree* tree = static_cast<DbTree*>(data);
-//     if (Fl::event() == FL_PUSH) // Проверка события нажатия кнопки
-//     {
-//         Fl_Tree_Item* item = tree->callback_item();
-//         if (item)
-//         {
-//             std::cout << "Callback triggered for item: " << item->label() << std::endl;
-//         }
-//     }
-// }
 

@@ -21,7 +21,7 @@ public:
 	void show_db_names(const std::vector<std::string>& db_names);
 
 	//void add_cb_create_db_btn(Fl_Callback* cb, void* v);
-	std::string get_input_db_name();
+	//std::string get_input_db_name();
 
 	void show_structure_db();
 	void show_structure_table();

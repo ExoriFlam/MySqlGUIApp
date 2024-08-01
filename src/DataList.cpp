@@ -1,9 +1,9 @@
 #include "DataList.h"
-
+#include <iostream>
 DataList::DataList(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys)
-	:Fl_Group(x, y, w, h), h_name(0,0,0,0), h_action(0,0,0,0), data_scroll(0,0,0,0)
+	:Fl_Group(x, y, w, h), data_scroll(0,0,0,0) ,h_name(0,0,0,0), h_action(0,0,0,0), event_sys(e_sys)
 {
-	
+	data_scroll.end();
 	h_name.resize(x, y, w / 3, 30);
 	
 	h_name.labelfont(FL_HELVETICA_BOLD);
@@ -17,26 +17,10 @@ DataList::DataList(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sy
 	h_action.box(FL_NO_BOX);
 
 	data_scroll.resize(x, y + 30, w, h);
+	data_scroll.type(Fl_Scroll::BOTH);
 	
-	int y1 = y + 30;
-
-	for(int i = 0; i < 10; i++)
-	{
-		DataRow* row = new DataRow(x, y1 + (i * 30), w, 30,"example_table_name_table_name", e_sys);
-		
-		row->add_action("../image/structure.png","Structure");
-		row->add_action("../image/insert.png","Insert");
-		row->add_action("../image/drop.png","Drop");
-
-		if(i % 2 == 0)
-		{
-			row->color(FL_WHITE);
-		}
-		
-		rows.push_back(row);
-		data_scroll.add(rows.back());
-	}
-	data_scroll.end();
+	
+	this->end();
 	
 }
 
@@ -45,10 +29,40 @@ void DataList::set_header_name(const std::string& new_name)
 	h_name.copy_label(new_name.c_str());
 }
 
+void DataList::add_rows(const std::vector<std::string>& labels)
+{
+	if (labels.size() == 0) return;
+
+	int y = this->y() + 30;
+	int x = this->x();
+	int w = this->w();
+
+	for(int i = 0; i < labels.size(); i++)
+	{
+		//DataRow* row = new DataRow(x, y + (i * 30), w, 30, labels[i], event_sys);
+		rows.push_back(std::make_unique<DataRow>(x, y + (i * 30), w, 30, labels[i], event_sys));
+		rows.back()->add_action("../image/structure.png","Structure",labels[i]);
+		rows.back()->add_action("../image/insert.png","Insert",labels[i]);
+		rows.back()->add_action("../image/drop.png","Drop",labels[i]);
+
+		if(i % 2 == 0)
+		{
+			rows.back()->color(FL_WHITE);
+		}
+		
+		//rows.push_back(row);
+		data_scroll.add(rows.back().get());
+	}
+}
+
+
 DataList:: ~DataList()
 {
-	for(DataRow* row : this->rows)
-	{
-		delete row;
-	}
+	
+	  std::cout << "Number of children: " << data_scroll.children() << std::endl;
+	// for(DataRow* row : this->rows)
+	// {
+	// 	delete row;
+	// }
+	
 }

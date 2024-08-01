@@ -42,20 +42,20 @@ void StructureGroup::show_atribute_group()
 }
 
 
-void StructureGroup::show_dbs(const std::vector<std::string>& db_names)
-{
-	db_struct_gr->show_dbs(db_names);
-}
+// void StructureGroup::show_dbs(const std::vector<std::string>& db_names)
+// {
+// 	db_struct_gr->show_dbs(db_names);
+// }
 
 // void StructureGroup::add_cb_create_db_btn(Fl_Callback* cb, void* v)
 // {
 // 	db_struct_gr->add_cb_create_db_btn(cb, v);
 // }
 
-std::string StructureGroup::get_input_db_name()
-{
-	return db_struct_gr->get_input_value();
-}
+// std::string StructureGroup::get_input_db_name()
+// {
+// 	return db_struct_gr->get_input_value();
+// }
 // void StructureGroup::show()
 // {
 //     Fl_Group::show(); 

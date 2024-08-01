@@ -38,8 +38,8 @@ void TabControl::show_tabs()
 
 void TabControl::show_db_names(const std::vector<std::string>& db_names)
 {
-	structure_group->redraw();
-	structure_group->show_dbs(db_names);
+	//structure_group->redraw();
+	//structure_group->show_dbs(db_names);
 	
 }
 
@@ -49,10 +49,10 @@ void TabControl::show_db_names(const std::vector<std::string>& db_names)
 // 	structure_group->add_cb_create_db_btn(cb, v);
 // }
 
-std::string TabControl::get_input_db_name()
-{
-	return structure_group->get_input_db_name();
-}
+// std::string TabControl::get_input_db_name()
+// {
+// 	return structure_group->get_input_db_name();
+// }
 
 
 
