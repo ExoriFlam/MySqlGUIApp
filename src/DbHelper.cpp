@@ -93,6 +93,33 @@ std::vector<std::string> DbHelper::get_db_names(){
     return db_names;
 }
 
+
+std::vector<std::string> DbHelper::get_table_names(const std::string db_name)
+{
+    std::vector<std::string> tables;
+
+    try
+    {
+        std::unique_ptr<sql::Statement> stmt(conn->createStatement());
+        std::string tables_query = "SHOW TABLES FROM " + db_name;
+        std::unique_ptr<sql::ResultSet> res(stmt->executeQuery(tables_query));
+
+        while(res->next())
+        {
+            tables.push_back(res->getString(1));
+        }
+    }
+    catch(sql::SQLException &e)
+    {
+        #ifdef DEBUG
+        std::cerr << "SQLException: " << e.what() << std::endl;
+        #endif
+    }
+
+    return tables;
+}
+
+
 DbSchema DbHelper::get_schema() {
 
     DbSchema schema;
@@ -151,3 +178,4 @@ DbSchema DbHelper::get_schema() {
 
     return true;
  }
+

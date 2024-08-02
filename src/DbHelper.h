@@ -26,7 +26,7 @@ public:
     DbSchema get_schema();
     
     std::vector<std::string> get_db_names();
-   
+   	std::vector<std::string> get_table_names(const std::string db_name);
 
 private:
 

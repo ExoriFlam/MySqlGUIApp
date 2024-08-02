@@ -65,6 +65,7 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 
 
     event_sys->subscribe("on_click_create_db_btn", [this](Fl_Widget* w) {
+
 		Fl_Input* input = (Fl_Input*)w;
 		if(input)
 		{
@@ -88,26 +89,68 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 		IconLabelGroup* l =  (IconLabelGroup*) w;
 		if(l)
 		{
-			std::string label= l->get_label();
+			std::string a_name= l->get_action_name();
+			std::string type = l->get_data_type();
+			std::string value = l->get_data_value();
 			
-			if(label == "Structure")
-			{
-				
-			}
-			else if(label == "Insert")
-			{
+			std::cout << a_name << " " << type << " " << value;
 
-			}
-			else if(label == "Drop")
+			if(a_name == "Structure")
 			{
-				std::string db_name = l->get_row_data();
-
-				if(!db_helper->drop_db(db_name))
+				if(type == "Databases")
 				{
-					#ifdef DEBUG
-		 			std::cout << "Fail drop db";
-		    		#endif
+					set_selected_db(value);
+					
+
+					event_sys->trigger("on_show_table_list", this);
+
 				}
+				else if(type == "Tables")
+				{
+
+				}
+				else if(type == "Atributes")
+				{
+
+				}
+			}
+			else if(a_name == "Insert")
+			{
+				if(type == "Databases")
+				{
+
+				}
+				else if(type == "Tables")
+				{
+
+				}
+				else if(type == "Atributes")
+				{
+					
+				}
+			}
+			else if(a_name == "Drop")
+			{
+
+				if(type == "Databases")
+				{
+					
+					if(!db_helper->drop_db(value))
+					{
+						#ifdef DEBUG
+			 			std::cout << "Fail drop db";
+			    		#endif
+					}
+				}
+				else if(type == "Tables")
+				{
+
+				}
+				else if(type == "Atributes")
+				{
+					
+				}
+				
 			}
 		}
 	});
@@ -117,37 +160,36 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 }
 
 
+std::string MainWindow::get_selected_db()
+{
+	return selected_db;
+}
+
+void MainWindow::set_selected_db(const std::string& s_db)
+{
+	selected_db = s_db;
+}
+
 void MainWindow::on_home_btn_click(Fl_Widget* w, void* v)
 {
+	(void)w;//
 	TabControl* tabs = (TabControl*)v;
 	tabs->show_home(); 
 }
 
 void MainWindow::on_show_tab_control(Fl_Widget* w , void* v)
 {
+	(void)w;//
 	MainWindow* win = (MainWindow*)v;
 	win->tabs->show_tabs();
 	win->event_sys->trigger("on_show_db_list", win); 
-	//win->tabs->show_db_names(win->db_helper->get_db_names());
+	
 }
 
-// void MainWindow::on_create_db_btn_click(Fl_Widget* w , void * v)
-// {
-// 	MainWindow* win = (MainWindow*)v;
-// 	std::string db_name = win->tabs->get_input_db_name();
-
-//     if(!win->db_helper->create_db(db_name))
-//     {
-//     	#ifdef DEBUG
-//     	std::cout << "Fail create db";
-//     	#endif
-//     }  
-
-//     e_sys->trigger("on_click_create_db_btn", btn_create_db);
-// }
 
 void MainWindow::on_refresh_btn_click(Fl_Widget* w , void* v)
 {
+	(void)w;//
 	MainWindow* win = (MainWindow*)v;
 	win->refresh_all_visible_widgets();
 	win->event_sys->trigger("on_show_db_list", win);
@@ -162,7 +204,7 @@ void MainWindow::refresh_all_visible_widgets()
 
 void MainWindow::on_click_tree(Fl_Widget* w, void* v)
 {
-
+	(void)w;//
 	MainWindow* win = (MainWindow*) v;
 
 	
@@ -173,20 +215,23 @@ void MainWindow::on_click_tree(Fl_Widget* w, void* v)
         if (item)
         {
         	win->tabs->show_tabs(); 
-        	std::string* type = (std::string*)(item->user_data());//
+        	auto* type = static_cast<std::pair<std::string, std::string>*>(item->user_data());
         	if(type)
         	{
-        		if(*type == "db")
+        		if(type->first == "db")
 	        	{
 	        		win->tabs->show_structure_db();
+	        		win->set_selected_db(type->second);
 	        		win->event_sys->trigger("on_show_db_list", win);
 	        		
+	        		
 	        	}
-	        	else if(*type == "table")
+	        	else if(type->first == "table")
 	        	{
 	        		win->tabs->show_structure_table();
+	        		win->event_sys->trigger("on_show_table_list", win);
 	        	}
-	        	else if(*type == "atribute")
+	        	else if(type->first == "atribute")
 	        	{
 	        		win->tabs->show_structure_atribute();
 	        	}

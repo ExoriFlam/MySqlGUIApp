@@ -5,35 +5,37 @@
 #include <FL/Fl_Input.H>
 #include <FL/Fl_Int_Input.H>
 #include <FL/Fl_Button.H>
-#include "TableList.h"
 #include <memory>
-
+#include "EventSystem.h"
+#include "DataList.h"
+#include "DataRow.h"
 class TableStructureGroup : public Fl_Group{
 public:
-	TableStructureGroup(int x, int y, int w, int h);
+	TableStructureGroup(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys);
 
+	void show_tables(const std::vector<std::string> table_names);
 private:
 
-	std::unique_ptr<Fl_Box> header;
+	std::shared_ptr<EventSystem> event_sys;
 
-	std::unique_ptr<Fl_Box> label_create_table;
+	Fl_Box header;
 
-	std::unique_ptr<Fl_Box> label_table_name;
+	Fl_Box label_create_table;
 
-	std::unique_ptr<Fl_Input> input_table_name;
+	Fl_Box label_table_name;
 
-	std::unique_ptr<Fl_Box> label_nbr_cols;
+	Fl_Input input_table_name;
 
-	std::unique_ptr<Fl_Int_Input> input_nbr_colums;
+	Fl_Box label_nbr_cols;
 
-	std::unique_ptr<Fl_Button> btn_create_table;
+	Fl_Int_Input input_nbr_colums;
+
+	Fl_Button btn_create_table;
 	
-	std::unique_ptr<Fl_Box> line;
-
-	std::unique_ptr<TableList> table_list;
-	//std::unique_ptr<Fl_Scroll> table;
-
-	//std::vector<std::pair<Fl_Box*, Fl_Box*>> rows;
+	Fl_Box line;
+	
+	std::unique_ptr<DataList> table_list;
+	
 };
 
 #endif

@@ -36,30 +36,22 @@ DbStructureGroup::DbStructureGroup(int x, int y, int w, int h, std::shared_ptr<E
 
 	db_list = std::make_unique<DataList>(x + 10, y + 110, w-20, 340, e_sys);
 	db_list->set_header_name("Databases");
+	
+	db_list->end();
+	//std::cout << "Number of children: " << db_list->children() << std::endl;
 
 	event_sys->subscribe("on_show_db_list",[this](Fl_Widget* w){
 		MainWindow* win = (MainWindow*) w;
 		show_dbs(win->db_helper->get_db_names());
 	});
-	//data_list.resize(x + 10, y + 110, w-20, 340);
-
-	// databases_header = std::make_unique<Fl_Box>(x + 10, y + 110, 200, 30, "Databases");
-	// databases_header->box(FL_UP_BOX);
-	// action_header = std::make_unique<Fl_Box>(x + 205, y + 110, 200, 30, "Actions");
-	// action_header->box(FL_UP_BOX);
-
 	
-
-	// table = std::make_unique<Fl_Scroll>(x + 10, y + 145, 405, 350);
-	// table->type(Fl_Scroll::VERTICAL);
-
 	end();
 	
 }
 
 void DbStructureGroup::show_dbs(const std::vector<std::string>& db_names)
 {
-	if(db_names.size() == 0)
+	if(db_names.empty())
 	{
 
 		#ifdef DEBUG
@@ -73,13 +65,11 @@ void DbStructureGroup::show_dbs(const std::vector<std::string>& db_names)
 
 void DbStructureGroup::add_cb_create_db_btn(Fl_Widget* widget, void* v)
 {
+	(void)widget;//
+	
 	DbStructureGroup* db_s = (DbStructureGroup*) v;
 
 	db_s->event_sys->trigger("on_click_create_db_btn", &db_s->input_create_db);
 	
 }
 
-// std::string DbStructureGroup::get_input_value()
-// {
-// 	return std::string(input_create_db.value());
-// }

@@ -28,8 +28,6 @@ public:
 
 	static void add_cb_create_db_btn(Fl_Widget* widget, void* v);
 
-	//std::string get_input_value();
-	
 
 private:
 	
@@ -46,14 +44,6 @@ private:
 	Fl_Box line;
 	
 	std::unique_ptr<DataList> db_list;
-
-	// std::unique_ptr<Fl_Box> databases_header;
-	// std::unique_ptr<Fl_Box> action_header;
-	// //std::unique_ptr<Fl_Pack> table;
-
-	// std::unique_ptr<Fl_Scroll> table;
-
-	// std::vector<std::pair<Fl_Box*, Fl_Box*>> rows;
 
 
 };

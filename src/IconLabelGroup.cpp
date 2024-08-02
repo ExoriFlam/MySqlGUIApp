@@ -1,7 +1,7 @@
 #include "IconLabelGroup.h"
 #include <iostream>
 IconLabelGroup::IconLabelGroup(int x, int y, int w, int h, const std::string& img_path, const std::string& label)
-    : Fl_Group(x, y, w, h), cb_(nullptr), cb_data_(nullptr), image_box(0, 0, 0, 0), label_box(0, 0, 0, 0), icon(img_path.c_str())
+    : Fl_Group(x, y, w, h), icon(img_path.c_str()), image_box(0, 0, 0, 0), label_box(0, 0, 0, 0) , cb_(nullptr), cb_data_(nullptr)
 {
     
     image_box.resize(x, y, 20, 30);
@@ -23,13 +23,31 @@ std::string IconLabelGroup::get_label()
     return std::string(label_box.label());
 }
 
-std::string IconLabelGroup::get_row_data()
+std::string IconLabelGroup::get_action_name()
 {
-    return row_data;
+    return action_name;
 }
-void IconLabelGroup::set_row_data(const std::string& r_data)
+void IconLabelGroup::set_action_name(const std::string& a_name)
 {
-    row_data = r_data;
+    action_name = a_name;
+}
+
+std::string IconLabelGroup::get_data_type()
+{
+    return data_type;
+}
+void IconLabelGroup::set_data_type(const std::string& d_type)
+{
+    data_type = d_type;
+}
+
+std::string IconLabelGroup::get_data_value()
+{
+    return data_value;
+}
+void IconLabelGroup::set_data_value(const std::string& d_val)
+{
+    data_value = d_val;
 }
 
 

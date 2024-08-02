@@ -7,16 +7,17 @@
 #include "DataRow.h"
 #include "EventSystem.h"
 #include <list>
+
 class DataList : public Fl_Group{
 
 public:
 	DataList(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys);
 	void set_header_name(const std::string& new_name);
 	void add_rows(const std::vector<std::string>& labels);
-	~DataList();
+	
 private:
 
-	
+	std::string type;
 	Fl_Box h_name;
 	Fl_Box h_action;
 	std::shared_ptr<EventSystem> event_sys;

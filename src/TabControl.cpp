@@ -36,12 +36,7 @@ void TabControl::show_tabs()
 	this->activate();
 }
 
-void TabControl::show_db_names(const std::vector<std::string>& db_names)
-{
-	//structure_group->redraw();
-	//structure_group->show_dbs(db_names);
-	
-}
+
 
 
 // void TabControl::add_cb_create_db_btn(Fl_Callback* cb, void* v)

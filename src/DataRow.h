@@ -14,22 +14,19 @@
 class DataRow : public Fl_Group{
 
 public:
-	DataRow(int x, int y, int w, int h, const std::string& _name, std::shared_ptr<EventSystem> e_sys);
-    //~DataRow();
-    void add_action(const std::string& image_path, const std::string& label,const std::string& r_data);
+
+	DataRow(int x, int y, int w, int h, const std::string& _name,const std::string& type, std::shared_ptr<EventSystem> e_sys);
+    void add_action(const std::string& image_path, const std::string& label);
     static void on_click_row_action(Fl_Widget* widget, void* v);
 
-
-
-
 private:
+	
 	int cur_x;
 	std::shared_ptr<EventSystem> event_sys;
 	Fl_Check_Button check;
 	Fl_Box name;
-	std::list<std::unique_ptr<IconLabelGroup>> actions;   
-	//std::list<IconLabelGroup*> actions;   
-	
+	std::string row_type;
+	std::list<std::unique_ptr<IconLabelGroup>> actions;
 };
 
 

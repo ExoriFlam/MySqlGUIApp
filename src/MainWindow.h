@@ -19,12 +19,15 @@ class MainWindow : public Fl_Double_Window{
 public:
 	MainWindow(int x, int y, int w, int h, const char* l);
 	std::unique_ptr<DbHelper> db_helper;
+
+	std::string get_selected_db();
+	void set_selected_db(const std::string& s_db);
 private:
 
 	int width;
 	int height;
 	int pading;
-
+	std::string selected_db;
 	
 
 	std::unique_ptr<NavPanel> nav_panel;

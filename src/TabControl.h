@@ -18,7 +18,7 @@ public:
 	void show_home();
 	void show_tabs();
 
-	void show_db_names(const std::vector<std::string>& db_names);
+	
 
 	//void add_cb_create_db_btn(Fl_Callback* cb, void* v);
 	//std::string get_input_db_name();

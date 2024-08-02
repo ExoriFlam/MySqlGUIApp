@@ -1,6 +1,7 @@
 #include "DbTree.h"
 #include <FL/Fl_Tree_Item.H>
 #include <iostream>
+#include <utility> 
 
 DbTree::DbTree(int x, int y, int w, int h):
 	Fl_Tree(x, y, w, h), db_img("../image/db.png"), table_img("../image/dbtable.png"), atribute_img("../image/dbatr.png")
@@ -34,7 +35,9 @@ void DbTree::init_tree(const DbSchema& schema)
 
 		Fl_Tree_Item* node_db_name = add(db_name.c_str());
 		node_db_name->usericon(&db_img);
-		node_db_name->user_data(new std::string("db"));
+
+		auto db_pair = std::make_pair(std::string("db"),db_name);
+		node_db_name->user_data(new std::pair<std::string, std::string>(db_pair));
 		close(node_db_name);
 
 		
@@ -47,7 +50,8 @@ void DbTree::init_tree(const DbSchema& schema)
 
 			Fl_Tree_Item* node_table_name = add(table_name.c_str());
 			node_table_name->usericon(&table_img);
-			node_table_name->user_data(new std::string("table"));
+			auto table_pair = std::make_pair(std::string("table"),tablekv.first);
+			node_table_name->user_data(new std::pair<std::string, std::string>(table_pair));
 			close(node_table_name);
 			const Atributes& atributes = tablekv.second;
 
@@ -57,7 +61,8 @@ void DbTree::init_tree(const DbSchema& schema)
 
 				Fl_Tree_Item* node_atribute_name = add(atrib_name.c_str());
 				node_atribute_name->usericon(&atribute_img);
-				node_atribute_name->user_data(new std::string("atribute"));
+				auto atrib_pair = std::make_pair(std::string("atribute"), atribute);
+				node_atribute_name->user_data(new std::pair<std::string, std::string>(atrib_pair));
 				close(node_atribute_name);
 			}
 		}
