@@ -4,7 +4,7 @@ StructureGroup::StructureGroup(int x, int y, int w, int h, std::shared_ptr<Event
 	Fl_Group(x, y, w, h)
 {
 	label("Structure");
-
+	//event_sys = e_sys;
 	db_struct_gr = std::make_unique<DbStructureGroup>(x, y, w, h, e_sys);
 	table_struct_gr = std::make_unique<TableStructureGroup>(x, y, w, h,  e_sys);
 	atribute_struct_gr = std::make_unique<AtributeStructureGroup>(x, y, w, h);
@@ -24,6 +24,7 @@ void StructureGroup::show_db_group()
 	table_struct_gr->hide();
 	atribute_struct_gr->hide();
 	db_struct_gr->show();
+	
 	
 }
 

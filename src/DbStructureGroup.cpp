@@ -36,7 +36,7 @@ DbStructureGroup::DbStructureGroup(int x, int y, int w, int h, std::shared_ptr<E
 
 	db_list = std::make_unique<DataList>(x + 10, y + 110, w-20, 340, e_sys);
 	db_list->set_header_name("Databases");
-	
+
 	db_list->end();
 	//std::cout << "Number of children: " << db_list->children() << std::endl;
 
@@ -51,15 +51,7 @@ DbStructureGroup::DbStructureGroup(int x, int y, int w, int h, std::shared_ptr<E
 
 void DbStructureGroup::show_dbs(const std::vector<std::string>& db_names)
 {
-	if(db_names.empty())
-	{
-
-		#ifdef DEBUG
-		std::cout << "empty db_names";
-		#endif
-		return;
-	}
-
+	
 	db_list->add_rows(db_names);
 }
 

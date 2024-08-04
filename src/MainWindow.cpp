@@ -77,6 +77,13 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 	 			std::cout << "Fail create db";
 	    		#endif
 			}
+			else
+			{
+				event_sys->trigger("on_show_db_list", this);
+				refresh_all_visible_widgets();
+			}
+
+
 		}
 		
 
@@ -93,7 +100,7 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 			std::string type = l->get_data_type();
 			std::string value = l->get_data_value();
 			
-			std::cout << a_name << " " << type << " " << value;
+			
 
 			if(a_name == "Structure")
 			{
@@ -101,7 +108,7 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 				{
 					set_selected_db(value);
 					
-
+					tabs->show_structure_table();
 					event_sys->trigger("on_show_table_list", this);
 
 				}
@@ -116,11 +123,7 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 			}
 			else if(a_name == "Insert")
 			{
-				if(type == "Databases")
-				{
-
-				}
-				else if(type == "Tables")
+				if(type == "Tables")
 				{
 
 				}
@@ -141,6 +144,13 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 			 			std::cout << "Fail drop db";
 			    		#endif
 					}
+					else
+					{
+						event_sys->trigger("on_show_db_list", this);
+						refresh_all_visible_widgets();
+					}
+					
+
 				}
 				else if(type == "Tables")
 				{
@@ -216,24 +226,37 @@ void MainWindow::on_click_tree(Fl_Widget* w, void* v)
         {
         	win->tabs->show_tabs(); 
         	auto* type = static_cast<std::pair<std::string, std::string>*>(item->user_data());
+
         	if(type)
         	{
         		if(type->first == "db")
 	        	{
-	        		win->tabs->show_structure_db();
+
+	        		//win->tabs->show_structure_db();
+	        		win->tabs->show_structure_table();
 	        		win->set_selected_db(type->second);
-	        		win->event_sys->trigger("on_show_db_list", win);
+	        		win->event_sys->trigger("on_show_table_list", win);
 	        		
 	        		
 	        	}
 	        	else if(type->first == "table")
 	        	{
-	        		win->tabs->show_structure_table();
-	        		win->event_sys->trigger("on_show_table_list", win);
+	        		
+	        		//win->event_sys->trigger("on_show_table_list", win);
 	        	}
 	        	else if(type->first == "atribute")
 	        	{
 	        		win->tabs->show_structure_atribute();
+	        	}
+	        	else if(type->first == "root")
+	        	{
+
+	        		win->tabs->show_tabs();
+	        		win->event_sys->trigger("on_show_db_list", win);
+
+	        		
+	        		
+					
 	        	}
 
         	}

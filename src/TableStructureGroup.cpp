@@ -4,16 +4,30 @@
 #include "IconLabelGroup.h"
 TableStructureGroup::TableStructureGroup(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys)
     : Fl_Group(x, y, w, h), event_sys(e_sys),
-      header(0, 0, 0, 0), label_create_table(0, 0, 0, 0), label_table_name(0, 0, 0, 0),
-      input_table_name(0, 0, 0, 0), label_nbr_cols(0, 0, 0, 0), input_nbr_colums(0, 0, 0, 0),
-      btn_create_table(0, 0, 0, 0), line(0, 0, 0, 0)
+      header(0, 0, 0, 0), vert_line(0, 0, 0, 0), selected_db(0, 0, 0, 0),label_create_table(0, 0, 0, 0),
+      label_table_name(0, 0, 0, 0), input_table_name(0, 0, 0, 0), label_nbr_cols(0, 0, 0, 0),
+      input_nbr_colums(0, 0, 0, 0), btn_create_table(0, 0, 0, 0), line(0, 0, 0, 0)
 {
    
+	
+	//Fl_Box selected_db;
+
     header.resize(x + 50, y + 10, 50, 30);
     header.label("Tables");
     header.labelfont(FL_HELVETICA_BOLD);
     header.labelsize(20);
 
+    vert_line.resize(x + 120, y + 10, 2, 30);
+    vert_line.color(FL_BLACK);
+    vert_line.box(FL_FLAT_BOX);
+
+    selected_db.resize(x + 125, y + 10, 200, 30);
+    selected_db.labelfont(FL_HELVETICA_BOLD);
+	selected_db.labelsize(20);
+
+	selected_db.labelcolor(fl_rgb_color(138, 119, 0));
+
+    	
     label_create_table.resize(x + 50, y + 55, 70, 30);
     label_create_table.label("Create Table");
     label_create_table.labelfont(FL_HELVETICA);
@@ -54,27 +68,22 @@ TableStructureGroup::TableStructureGroup(int x, int y, int w, int h, std::shared
 
 		MainWindow* win = (MainWindow*) w;
 
-		std::string selected_db = win->get_selected_db();
+		std::string sel_db = win->get_selected_db();
+		selected_db.copy_label(sel_db.c_str());
 		
-		if(!selected_db.empty())
+
+		if(!sel_db.empty())
 		{
-			show_tables(win->db_helper->get_table_names(selected_db));
+			show_tables(win->db_helper->get_table_names(sel_db));
 		}
 		
 	});
+
 }
 
 
 void TableStructureGroup::show_tables(const std::vector<std::string> table_names)
 {
-	if(table_names.empty())
-	{
-
-		#ifdef DEBUG
-		std::cout << "empty table_names";
-		#endif
-		return;
-	}
-
+	
 	table_list->add_rows(table_names);
 }

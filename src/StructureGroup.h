@@ -27,6 +27,7 @@ private:
 	std::unique_ptr<DbStructureGroup> db_struct_gr;
 	std::unique_ptr<TableStructureGroup> table_struct_gr;
 	std::unique_ptr<AtributeStructureGroup> atribute_struct_gr;
+	//std::shared_ptr<EventSystem> event_sys;
 };
 
 

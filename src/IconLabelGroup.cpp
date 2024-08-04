@@ -1,11 +1,13 @@
 #include "IconLabelGroup.h"
 #include <iostream>
 IconLabelGroup::IconLabelGroup(int x, int y, int w, int h, const std::string& img_path, const std::string& label)
-    : Fl_Group(x, y, w, h), icon(img_path.c_str()), image_box(0, 0, 0, 0), label_box(0, 0, 0, 0) , cb_(nullptr), cb_data_(nullptr)
+    : Fl_Group(x, y, w, h), image_box(0, 0, 0, 0), label_box(0, 0, 0, 0) , cb_(nullptr), cb_data_(nullptr)
 {
-    
+    std::unique_ptr<Fl_PNG_Image> img = std::make_unique<Fl_PNG_Image>(img_path.c_str());
+    icon_copy = std::unique_ptr<Fl_Image>(img->copy(15, 15));// copy return Fl_Image* with new mem
+
     image_box.resize(x, y, 20, 30);
-    image_box.image(icon.copy(15,15));
+    image_box.image(icon_copy.get());
     image_box.box(FL_NO_BOX);
     
     label_box.resize(x + 20, y, w - 20, 30);

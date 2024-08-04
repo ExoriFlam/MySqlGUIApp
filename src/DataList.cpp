@@ -32,19 +32,34 @@ void DataList::set_header_name(const std::string& new_name)
 
 void DataList::add_rows(const std::vector<std::string>& labels)
 {
-	if (labels.size() == 0) return;
+	if (labels.empty())
+	{
+		rows.clear();
+		data_scroll.clear();
+		return;
+	} 
 
 	int y = this->y() + 30;
 	int x = this->x();
 	int w = this->w();
 
+	rows.clear();
+	data_scroll.clear();
+    
+
 	for(size_t i = 0; i < labels.size(); i++)
 	{
 		
 		rows.push_back(std::make_unique<DataRow>(x, y + (i * 30), w, 30, labels[i], type, event_sys));
-		
+
+
 		rows.back()->add_action("../image/structure.png","Structure");
-		rows.back()->add_action("../image/insert.png","Insert");
+		
+		if(type == "Tables")
+		{
+			rows.back()->add_action("../image/insert.png","Insert");
+		}
+		
 		rows.back()->add_action("../image/drop.png","Drop");
 
 		if(i % 2 == 0)
@@ -55,5 +70,7 @@ void DataList::add_rows(const std::vector<std::string>& labels)
 		
 		data_scroll.add(rows.back().get());
 	}
+
+	data_scroll.redraw();
 }
 

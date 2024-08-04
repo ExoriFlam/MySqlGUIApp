@@ -27,7 +27,8 @@ protected:
 	int handle(int event) override;
 
 private:
-    Fl_PNG_Image icon;
+	
+    std::unique_ptr<Fl_Image> icon_copy;
     Fl_Box image_box;
     Fl_Box label_box;
     std::string action_name;

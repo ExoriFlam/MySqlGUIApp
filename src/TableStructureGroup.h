@@ -20,6 +20,10 @@ private:
 
 	Fl_Box header;
 
+	Fl_Box vert_line;
+	
+	Fl_Box selected_db;
+
 	Fl_Box label_create_table;
 
 	Fl_Box label_table_name;
@@ -33,7 +37,7 @@ private:
 	Fl_Button btn_create_table;
 	
 	Fl_Box line;
-	
+
 	std::unique_ptr<DataList> table_list;
 	
 };

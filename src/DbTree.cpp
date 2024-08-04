@@ -1,7 +1,8 @@
 #include "DbTree.h"
 #include <FL/Fl_Tree_Item.H>
 #include <iostream>
-#include <utility> 
+
+
 
 DbTree::DbTree(int x, int y, int w, int h):
 	Fl_Tree(x, y, w, h), db_img("../image/db.png"), table_img("../image/dbtable.png"), atribute_img("../image/dbatr.png")
@@ -13,12 +14,25 @@ DbTree::DbTree(int x, int y, int w, int h):
 	
 }
 
-
+void DbTree::add_user_data(Fl_Tree_Item* node, const std::string& k, const std::string& v)
+{
+	if(node)
+	{
+		u_data.push_back(std::make_shared<UserData>(k,v));
+		node->user_data(u_data.back().get());
+	}
+}
 
 
 void DbTree::init_tree(const DbSchema& schema)
 {
-	if(schema.size() == 0)
+	
+	
+	u_data.clear();
+	clear();
+	
+
+	if(schema.empty())
 	{
 		#ifdef DEBUG
 		std::cout << "db structure is empty";
@@ -26,8 +40,11 @@ void DbTree::init_tree(const DbSchema& schema)
 		#endif
 		return;
 	}
-	clear();
 	
+
+	
+	 
+
 	for(const auto& dbkv : schema)
 	{
 
@@ -35,13 +52,9 @@ void DbTree::init_tree(const DbSchema& schema)
 
 		Fl_Tree_Item* node_db_name = add(db_name.c_str());
 		node_db_name->usericon(&db_img);
-
-		auto db_pair = std::make_pair(std::string("db"),db_name);
-		node_db_name->user_data(new std::pair<std::string, std::string>(db_pair));
+		add_user_data(node_db_name,"db",db_name);
 		close(node_db_name);
-
 		
-
 		const Tables& tables = dbkv.second;
 
 		for(const auto& tablekv : tables)
@@ -50,9 +63,9 @@ void DbTree::init_tree(const DbSchema& schema)
 
 			Fl_Tree_Item* node_table_name = add(table_name.c_str());
 			node_table_name->usericon(&table_img);
-			auto table_pair = std::make_pair(std::string("table"),tablekv.first);
-			node_table_name->user_data(new std::pair<std::string, std::string>(table_pair));
+			add_user_data(node_table_name,"table", tablekv.first);
 			close(node_table_name);
+			
 			const Atributes& atributes = tablekv.second;
 
 			for(const auto& atribute : atributes)
@@ -61,15 +74,20 @@ void DbTree::init_tree(const DbSchema& schema)
 
 				Fl_Tree_Item* node_atribute_name = add(atrib_name.c_str());
 				node_atribute_name->usericon(&atribute_img);
-				auto atrib_pair = std::make_pair(std::string("atribute"), atribute);
-				node_atribute_name->user_data(new std::pair<std::string, std::string>(atrib_pair));
+				add_user_data(node_atribute_name,"atribute",atribute);
 				close(node_atribute_name);
+				
 			}
 		}
 
 	}
-	root_label("Db List");
-	
+
+ 
+	 add_user_data(this->root(),"root","root");
+	 root_label("Db List");
+	 
+
+
 }
 
 

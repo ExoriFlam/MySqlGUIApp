@@ -5,8 +5,10 @@
 #include "HomeGroup.h"
 #include "StructureGroup.h"
 #include "SQLGroup.h"
+#include "InsertGroup.h"
 #include <memory>
 #include "EventSystem.h"
+
 class TabControl : public Fl_Tabs{
 
 public:
@@ -20,18 +22,20 @@ public:
 
 	
 
-	//void add_cb_create_db_btn(Fl_Callback* cb, void* v);
-	//std::string get_input_db_name();
 
 	void show_structure_db();
 	void show_structure_table();
 	void show_structure_atribute();
+
+	//void show_insert_table();
 
 private:
 
 	std::unique_ptr<StructureGroup> structure_group;
 	//
 	std::unique_ptr<SQLGroup> sql_group;
+
+	std::unique_ptr<InsertGroup> insert_group;
 
 	std::unique_ptr<HomeGroup> home_group;
 	
