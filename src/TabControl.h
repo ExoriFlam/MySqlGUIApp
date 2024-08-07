@@ -19,7 +19,7 @@ public:
 
 	void show_home();
 	void show_tabs();
-
+	void show_insert();
 	
 
 
@@ -28,7 +28,9 @@ public:
 	void show_structure_atribute();
 
 	//void show_insert_table();
-
+	void set_table_name(const std::string& t_name);
+    void add_rows(int count);	
+    
 private:
 
 	std::unique_ptr<StructureGroup> structure_group;

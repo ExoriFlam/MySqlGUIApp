@@ -14,3 +14,17 @@ InsertGroup::InsertGroup(int x, int y, int w, int h, std::shared_ptr<EventSystem
 
 	end();
 }
+
+void InsertGroup::set_table_name(const std::string& t_name)
+{
+	table_insert_gr->set_table_name(t_name);
+}
+void InsertGroup::add_rows(int count)
+{
+	table_insert_gr->add_rows(count);
+}
+
+void InsertGroup::clear_rows()
+{
+	table_insert_gr->clear_rows();
+}

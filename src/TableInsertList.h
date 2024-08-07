@@ -2,6 +2,7 @@
 #define TABLEINSLIST_H
 
 #include <memory>
+#include <list>
 #include <FL/Fl_Scroll.H>
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Box.H>
@@ -13,8 +14,11 @@ class TableInsertList : public Fl_Group
 {
 public:
 	TableInsertList(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys);
-
+	void add_rows(int count);
+	void clear_rows();
 private:
+	int init_y;
+	int cur_y;
 	Fl_Box lable_name;
 	Fl_Box lable_type;
 	Fl_Box lable_lenght;
@@ -23,8 +27,10 @@ private:
 	Fl_Box lable_index;
 	Fl_Box lbale_auto_inc;
 	Fl_Button save_btn;
-	Fl_Scroll insert_rows_list;
-	
+
+	Fl_Scroll insert_rows_scroll;
+	std::list<std::unique_ptr<TableInsertRow>> insert_rows_list;
+	std::shared_ptr<EventSystem> event_sys;
 };
 
 

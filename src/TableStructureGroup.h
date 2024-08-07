@@ -13,7 +13,12 @@ class TableStructureGroup : public Fl_Group{
 public:
 	TableStructureGroup(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys);
 
-	void show_tables(const std::vector<std::string> table_names);
+	void show_tables(const std::vector<std::string>& table_names);
+
+	std::string get_input_table_name();
+	std::string get_input_nbr_cols();
+	
+	static void on_click_create_table(Fl_Widget* w, void* v);
 private:
 
 	std::shared_ptr<EventSystem> event_sys;

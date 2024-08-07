@@ -165,7 +165,44 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 		}
 	});
 
+	event_sys->subscribe("on_create_table",[this](Fl_Widget* w){
 
+		TableStructureGroup* tsg = (TableStructureGroup*)w;
+		tabs->show_insert();
+		std::string nbr_cols_str = tsg->get_input_nbr_cols();
+		int nbr_cols;
+
+		if(!nbr_cols_str.empty())
+		{
+			nbr_cols = std::stoi(nbr_cols_str);
+		}
+		else
+		{
+			nbr_cols = 0;
+		}
+
+		tabs->set_table_name(tsg->get_input_table_name());
+		tabs->add_rows(nbr_cols);
+
+	});
+
+
+
+	event_sys->subscribe("on_click_add_btn", [this](Fl_Widget* w){
+
+		TableInsertGroup* tig = (TableInsertGroup*)w;
+		std::string nbr_cols_str = tig->get_input_nbr_cols();
+		int nbr_cols;
+		if(!nbr_cols_str.empty())
+		{
+			nbr_cols = std::stoi(nbr_cols_str);
+		}
+		else
+		{
+			nbr_cols = 0;
+		}
+		tabs->add_rows(nbr_cols);
+	});
 
 }
 

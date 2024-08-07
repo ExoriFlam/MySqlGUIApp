@@ -13,13 +13,12 @@ TabControl::TabControl(int x, int y, int w, int h, std::shared_ptr<EventSystem> 
 	sql_group = std::make_unique<SQLGroup>(x , y + 25, w , h );
 	add(sql_group.get());
 		
-	insert_group = std::make_unique<InsertGroup>(x , y + 25, w , h, e_sys);
-
-	add(insert_group.get());
-	end();
-
-	value(structure_group.get());
 	
+
+	//add(insert_group.get());
+	end();
+	value(structure_group.get());
+	insert_group = std::make_unique<InsertGroup>(x , y + 25, w , h, e_sys);
 	home_group = std::make_unique<HomeGroup>(x + 5, y + 25, w - 10, h - 35 );
 	show_home();
 }
@@ -30,6 +29,7 @@ void TabControl::show_home()
 	home_group->redraw();
 	sql_group->hide();
 	structure_group->hide();
+	insert_group->clear_rows();
 	insert_group->hide();
 	this->deactivate();
 }
@@ -37,15 +37,25 @@ void TabControl::show_home()
 void TabControl::show_tabs()
 {
 	sql_group->show();
-	insert_group->show(); // 
+	 
 	structure_group->show();
 	structure_group->show_db_group();
 	home_group->hide();
+	insert_group->clear_rows();
+	insert_group->hide(); 
 	structure_group->redraw();
 	this->activate();
 }
 
-
+void TabControl::show_insert()
+{
+	insert_group->show();
+	insert_group->redraw();
+	home_group->hide();
+	sql_group->hide();
+	structure_group->hide();
+	this->deactivate();
+}
 
 
 void TabControl::show_structure_db()
@@ -60,6 +70,16 @@ void TabControl::show_structure_atribute()
 {
 	structure_group->show_atribute_group();
 }
+
+void TabControl::set_table_name(const std::string& t_name)
+{
+	insert_group->set_table_name(t_name);
+}
+void TabControl::add_rows(int count)
+{
+	insert_group->add_rows(count);
+}
+
 
 // void TabControl::show_insert_table()
 // {

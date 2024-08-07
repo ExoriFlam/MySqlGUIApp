@@ -21,6 +21,7 @@ TableInsertGroup::TableInsertGroup(int x, int y, int w, int h, std::shared_ptr<E
     //label_add_col.box(FL_DOWN_BOX);
 
     input_add_col.resize(x + 445, y + 10, 35, 30);
+    input_add_col.value(0);
 	input_add_col.color(FL_WHITE);
 
 	add_col_btn.resize(x + 485, y + 10, 65, 30);
@@ -35,4 +36,33 @@ TableInsertGroup::TableInsertGroup(int x, int y, int w, int h, std::shared_ptr<E
 
 
     end();
+
+    add_col_btn.callback(on_click_add_btn, this);
+}
+
+void TableInsertGroup::on_click_add_btn(Fl_Widget* w, void* v)
+{
+	(void)w;
+	TableInsertGroup* tig = (TableInsertGroup*)v;
+	tig->event_sys->trigger("on_click_add_btn", tig);
+}
+
+void TableInsertGroup::set_table_name(const std::string& t_name)
+{
+ 	input_table_name.value(t_name.c_str());
+}
+
+void TableInsertGroup::add_rows(int count)
+{
+	ins_list->add_rows(count);
+	
+}
+
+void TableInsertGroup::clear_rows()
+{
+	ins_list->clear_rows();
+}
+std::string TableInsertGroup::get_input_nbr_cols()
+{
+	return std::string(input_add_col.value());
 }

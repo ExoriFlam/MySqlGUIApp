@@ -62,7 +62,7 @@ TableStructureGroup::TableStructureGroup(int x, int y, int w, int h, std::shared
 
     end();
 
-    
+    btn_create_table.callback(on_click_create_table, this);
 
     event_sys->subscribe("on_show_table_list",[this](Fl_Widget* w){
 
@@ -81,9 +81,26 @@ TableStructureGroup::TableStructureGroup(int x, int y, int w, int h, std::shared
 
 }
 
+void TableStructureGroup::on_click_create_table(Fl_Widget* w, void* v)
+{
+    (void)w;
+    TableStructureGroup* str_gr = (TableStructureGroup*)v;
+    str_gr->event_sys->trigger("on_create_table", str_gr);
+    
+}
 
-void TableStructureGroup::show_tables(const std::vector<std::string> table_names)
+void TableStructureGroup::show_tables(const std::vector<std::string>& table_names)
 {
 	
 	table_list->add_rows(table_names);
+}
+
+std::string TableStructureGroup::get_input_table_name()
+{
+    return std::string(input_table_name.value());
+}
+
+std::string TableStructureGroup::get_input_nbr_cols()
+{
+    return std::string(input_nbr_colums.value());
 }
