@@ -16,6 +16,7 @@ public:
 	TableInsertList(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys);
 	void add_rows(int count);
 	void clear_rows();
+	std::string get_rows_query();
 private:
 	int init_y;
 	int cur_y;
@@ -26,7 +27,7 @@ private:
 	Fl_Box lable_nullable;
 	Fl_Box lable_index;
 	Fl_Box lbale_auto_inc;
-	Fl_Button save_btn;
+	
 
 	Fl_Scroll insert_rows_scroll;
 	std::list<std::unique_ptr<TableInsertRow>> insert_rows_list;

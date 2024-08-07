@@ -22,6 +22,7 @@ public:
 
 	std::string get_selected_db();
 	void set_selected_db(const std::string& s_db);
+	void add_events();
 private:
 
 	int width;

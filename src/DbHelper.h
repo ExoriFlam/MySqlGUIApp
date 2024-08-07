@@ -22,6 +22,7 @@ public:
     bool create_db(std::string db_name);
     bool drop_db(std::string db_name);
     
+    bool execute_modification_query(const std::string& query);
 
     DbSchema get_schema();
     

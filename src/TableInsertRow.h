@@ -14,7 +14,10 @@ public:
 
 	TableInsertRow(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys);
 
+	std::string get_sql_row();
 
+	static void on_change_type_val(Fl_Widget* w, void* v);
+	static void on_change_auto_inc(Fl_Widget* w, void* v);
 private:
 
   std::shared_ptr<EventSystem> event_sys;
@@ -27,7 +30,7 @@ private:
   Fl_Choice index;
   Fl_Check_Button auto_inc;
 
-  std::vector<Fl_Menu_Item> choices;
+ 
 
 };
 

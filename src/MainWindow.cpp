@@ -63,8 +63,111 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 
     end();
 
+    add_events();
 
-    event_sys->subscribe("on_click_create_db_btn", [this](Fl_Widget* w) {
+    
+
+}
+
+
+std::string MainWindow::get_selected_db()
+{
+	return selected_db;
+}
+
+void MainWindow::set_selected_db(const std::string& s_db)
+{
+	selected_db = s_db;
+}
+
+void MainWindow::on_home_btn_click(Fl_Widget* w, void* v)
+{
+	(void)w;//
+	TabControl* tabs = (TabControl*)v;
+	tabs->show_home(); 
+}
+
+void MainWindow::on_show_tab_control(Fl_Widget* w , void* v)
+{
+	(void)w;//
+	MainWindow* win = (MainWindow*)v;
+	win->tabs->show_tabs();
+	win->event_sys->trigger("on_show_db_list", win); 
+	
+}
+
+
+void MainWindow::on_refresh_btn_click(Fl_Widget* w , void* v)
+{
+	(void)w;//
+	MainWindow* win = (MainWindow*)v;
+	win->refresh_all_visible_widgets();
+	win->event_sys->trigger("on_show_db_list", win);
+}
+
+void MainWindow::refresh_all_visible_widgets()
+{
+	db_list->init_tree(db_helper->get_schema());
+	//tabs->show_db_names(db_helper->get_db_names());
+	
+}
+
+void MainWindow::on_click_tree(Fl_Widget* w, void* v)
+{
+	(void)w;//
+	MainWindow* win = (MainWindow*) v;
+
+	
+    if (Fl::event() == FL_PUSH) 
+    {
+        Fl_Tree_Item* item = win->db_list->callback_item();
+
+        if (item)
+        {
+        	win->tabs->show_tabs(); 
+        	auto* type = static_cast<std::pair<std::string, std::string>*>(item->user_data());
+
+        	if(type)
+        	{
+        		if(type->first == "db")
+	        	{
+
+	        		//win->tabs->show_structure_db();
+	        		win->tabs->show_structure_table();
+	        		win->set_selected_db(type->second);
+	        		win->event_sys->trigger("on_show_table_list", win);
+	        		
+	        		
+	        	}
+	        	else if(type->first == "table")
+	        	{
+	        		
+	        		//win->event_sys->trigger("on_show_table_list", win);
+	        	}
+	        	else if(type->first == "atribute")
+	        	{
+	        		win->tabs->show_structure_atribute();
+	        	}
+	        	else if(type->first == "root")
+	        	{
+
+	        		win->tabs->show_tabs();
+	        		win->event_sys->trigger("on_show_db_list", win);
+
+	        		
+	        		
+					
+	        	}
+
+        	}
+        	
+        }
+    }
+}
+
+void MainWindow::add_events()
+{
+	event_sys->subscribe("on_click_create_db_btn", [this](Fl_Widget* w) {
 
 		Fl_Input* input = (Fl_Input*)w;
 		if(input)
@@ -204,101 +307,28 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 		tabs->add_rows(nbr_cols);
 	});
 
+	event_sys->subscribe("on_click_save_btn", [this](Fl_Widget* w){
+
+		TableInsertGroup* tig = (TableInsertGroup*)w;
+		std::string query = tig->get_sql_query();
+
+		if(query != "error")
+		{
+			if(db_helper->execute_modification_query(query))
+			{
+				#ifdef DEBUG
+				std::cerr << "Successfully executed query\n" << query;
+				#endif
+			}
+			else
+			{
+				#ifdef DEBUG
+				std::cerr << "Fail executed query\n" << query;
+				#endif
+			}
+		}
+
+		tabs->show_tabs();
+		
+	});
 }
-
-
-std::string MainWindow::get_selected_db()
-{
-	return selected_db;
-}
-
-void MainWindow::set_selected_db(const std::string& s_db)
-{
-	selected_db = s_db;
-}
-
-void MainWindow::on_home_btn_click(Fl_Widget* w, void* v)
-{
-	(void)w;//
-	TabControl* tabs = (TabControl*)v;
-	tabs->show_home(); 
-}
-
-void MainWindow::on_show_tab_control(Fl_Widget* w , void* v)
-{
-	(void)w;//
-	MainWindow* win = (MainWindow*)v;
-	win->tabs->show_tabs();
-	win->event_sys->trigger("on_show_db_list", win); 
-	
-}
-
-
-void MainWindow::on_refresh_btn_click(Fl_Widget* w , void* v)
-{
-	(void)w;//
-	MainWindow* win = (MainWindow*)v;
-	win->refresh_all_visible_widgets();
-	win->event_sys->trigger("on_show_db_list", win);
-}
-
-void MainWindow::refresh_all_visible_widgets()
-{
-	db_list->init_tree(db_helper->get_schema());
-	//tabs->show_db_names(db_helper->get_db_names());
-	
-}
-
-void MainWindow::on_click_tree(Fl_Widget* w, void* v)
-{
-	(void)w;//
-	MainWindow* win = (MainWindow*) v;
-
-	
-    if (Fl::event() == FL_PUSH) 
-    {
-        Fl_Tree_Item* item = win->db_list->callback_item();
-
-        if (item)
-        {
-        	win->tabs->show_tabs(); 
-        	auto* type = static_cast<std::pair<std::string, std::string>*>(item->user_data());
-
-        	if(type)
-        	{
-        		if(type->first == "db")
-	        	{
-
-	        		//win->tabs->show_structure_db();
-	        		win->tabs->show_structure_table();
-	        		win->set_selected_db(type->second);
-	        		win->event_sys->trigger("on_show_table_list", win);
-	        		
-	        		
-	        	}
-	        	else if(type->first == "table")
-	        	{
-	        		
-	        		//win->event_sys->trigger("on_show_table_list", win);
-	        	}
-	        	else if(type->first == "atribute")
-	        	{
-	        		win->tabs->show_structure_atribute();
-	        	}
-	        	else if(type->first == "root")
-	        	{
-
-	        		win->tabs->show_tabs();
-	        		win->event_sys->trigger("on_show_db_list", win);
-
-	        		
-	        		
-					
-	        	}
-
-        	}
-        	
-        }
-    }
-}
-

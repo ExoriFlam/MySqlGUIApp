@@ -3,7 +3,7 @@
 TableInsertList::TableInsertList(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys):
 	Fl_Group(x, y, w, h), lable_name(0, 0, 0, 0), lable_type(0, 0, 0, 0), lable_lenght(0, 0, 0, 0),
 	lable_default(0, 0, 0, 0), lable_nullable(0, 0, 0, 0), lable_index(0, 0, 0, 0),
-	lbale_auto_inc(0, 0, 0, 0), save_btn(0, 0, 0, 0), insert_rows_scroll(0, 0, 0, 0) 
+	lbale_auto_inc(0, 0, 0, 0), insert_rows_scroll(0, 0, 0, 0) 
 {
 	event_sys = e_sys;
 	insert_rows_scroll.end();
@@ -52,13 +52,12 @@ TableInsertList::TableInsertList(int x, int y, int w, int h, std::shared_ptr<Eve
     //lbale_auto_inc.box(FL_DOWN_BOX);
 
     insert_rows_scroll.resize(x + 5, y + 35, w - 10, 380);
-    insert_rows_scroll.type(Fl_Scroll::BOTH_ALWAYS);
+    insert_rows_scroll.type(Fl_Scroll::BOTH);
 	
     //insert_rows_scroll.color(FL_WHITE);
     
 
-    save_btn.resize(x + 10, y + 420, 60, 30);
-	save_btn.label("Save");
+    
 	end();
 	init_y = y + 40;
 	cur_y = init_y;
@@ -113,4 +112,26 @@ void TableInsertList::clear_rows()
 	insert_rows_list.clear();
 	insert_rows_scroll.clear();
 	cur_y = init_y;
+}
+
+std::string TableInsertList::get_rows_query()
+{
+    std::string rows_query;
+
+    for(auto& row : insert_rows_list)
+    {
+    	
+        if(!rows_query.empty())
+        {
+            rows_query += ", ";
+        }
+        std::string sql_row = row->get_sql_row();
+        if(sql_row == "error")
+        {
+        	return "error";
+        }
+        rows_query += sql_row;
+    }
+
+    return rows_query;
 }

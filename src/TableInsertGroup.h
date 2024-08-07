@@ -17,10 +17,12 @@ public:
     TableInsertGroup(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sys);
 
     static void on_click_add_btn(Fl_Widget* w, void* v);
+    static void on_click_save_btn(Fl_Widget* w, void* v);
     void set_table_name(const std::string& t_name);
     void add_rows(int count);
     std::string get_input_nbr_cols();
     void clear_rows();
+    std::string get_sql_query();
 private:
 
     std::shared_ptr<EventSystem> event_sys;
@@ -33,7 +35,7 @@ private:
     Fl_Box line; 
 
    	std::unique_ptr<TableInsertList> ins_list;
-   	
+   	Fl_Button save_btn;
 };
 
 #endif //TABLEINSERTGROUP_H

@@ -120,7 +120,8 @@ std::vector<std::string> DbHelper::get_table_names(const std::string db_name)
 }
 
 
-DbSchema DbHelper::get_schema() {
+DbSchema DbHelper::get_schema()
+{
 
     DbSchema schema;
 
@@ -160,8 +161,8 @@ DbSchema DbHelper::get_schema() {
 
 
 
- bool DbHelper::drop_db(std::string db_name)
- {
+bool DbHelper::drop_db(std::string db_name)
+{
     try
     {
         std::unique_ptr<sql::Statement> stmt(conn->createStatement());
@@ -177,5 +178,31 @@ DbSchema DbHelper::get_schema() {
     }
 
     return true;
- }
+}
 
+bool DbHelper::execute_modification_query(const std::string& query)
+{
+    if(!conn)
+    {
+        std::cerr << "Connection is not established.\n";
+        return false;
+    }
+
+    try
+    {
+        std::unique_ptr<sql::Statement> stmt(conn->createStatement());
+        stmt->execute(query);
+    }
+    catch (sql::SQLException& e)
+    {
+        std::cerr << "SQLException: " << e.what() << "\n";
+        return false;
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "Exception: " << e.what() << "\n";
+        return false;
+    }
+
+    return true;
+}
