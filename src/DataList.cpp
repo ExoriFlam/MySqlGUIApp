@@ -18,6 +18,11 @@ DataList::DataList(int x, int y, int w, int h, std::shared_ptr<EventSystem> e_sy
 
 	data_scroll.resize(x, y + 30, w, h);
 	data_scroll.type(Fl_Scroll::BOTH);
+
+	this->resizable(&h_name);//
+	this->resizable(&h_action);//
+	this->resizable(&h_action);//
+	this->resizable(&data_scroll);//
 	
 	
 	this->end();

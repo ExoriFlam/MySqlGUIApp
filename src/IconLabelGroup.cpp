@@ -16,7 +16,9 @@ IconLabelGroup::IconLabelGroup(int x, int y, int w, int h, const std::string& im
     label_box.align(FL_ALIGN_LEFT | FL_ALIGN_INSIDE);
     label_box.labelcolor(FL_BLACK);
     
-
+    this->resizable(&image_box);//
+    this->resizable(&label_box);//
+   
     end();
 }
 

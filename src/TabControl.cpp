@@ -4,6 +4,7 @@ TabControl::TabControl(int x, int y, int w, int h, std::shared_ptr<EventSystem> 
 	Fl_Tabs(x, y, w, h), structure_group(nullptr), sql_group(nullptr), insert_group(nullptr)
 {
 	structure_group = std::make_unique<StructureGroup>(x , y + 25, w , h, e_sys);
+	this->resizable(structure_group.get());//
 	//structure_group->color(FL_WHITE);
 	//structure_group->selection_color(FL_WHITE);
 	
@@ -11,6 +12,7 @@ TabControl::TabControl(int x, int y, int w, int h, std::shared_ptr<EventSystem> 
 	add(structure_group.get());
 	
 	sql_group = std::make_unique<SQLGroup>(x , y + 25, w , h );
+	this->resizable(sql_group.get());//
 	add(sql_group.get());
 		
 	
@@ -19,7 +21,9 @@ TabControl::TabControl(int x, int y, int w, int h, std::shared_ptr<EventSystem> 
 	end();
 	value(structure_group.get());
 	insert_group = std::make_unique<InsertGroup>(x , y + 25, w , h, e_sys);
+	this->resizable(insert_group.get());
 	home_group = std::make_unique<HomeGroup>(x + 5, y + 25, w - 10, h - 35 );
+	this->resizable(home_group.get());//
 	show_home();
 }
 

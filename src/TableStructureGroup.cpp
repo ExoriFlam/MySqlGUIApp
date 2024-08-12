@@ -48,6 +48,7 @@ TableStructureGroup::TableStructureGroup(int x, int y, int w, int h, std::shared
 
     input_nbr_colums.resize(x + 355, y + 90, 40, 30);
     input_nbr_colums.color(FL_WHITE);
+    input_nbr_colums.value("0");
 
     btn_create_table.resize(x + 410, y + 90, 65, 30);
     btn_create_table.label("Create");
@@ -68,6 +69,8 @@ TableStructureGroup::TableStructureGroup(int x, int y, int w, int h, std::shared
 
 		MainWindow* win = (MainWindow*) w;
 
+        input_nbr_colums.value("0");
+        input_table_name.value("");
 		std::string sel_db = win->get_selected_db();
 		selected_db.copy_label(sel_db.c_str());
 		

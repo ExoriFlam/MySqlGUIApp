@@ -40,7 +40,7 @@ TableInsertGroup::TableInsertGroup(int x, int y, int w, int h, std::shared_ptr<E
     end();
     save_btn.callback(on_click_save_btn, this);
     add_col_btn.callback(on_click_add_btn, this);
-    ins_list->box(FL_DOWN_BOX);
+    //ins_list->box(FL_DOWN_BOX);
 }
 
 void TableInsertGroup::on_click_add_btn(Fl_Widget* w, void* v)

@@ -6,8 +6,11 @@ StructureGroup::StructureGroup(int x, int y, int w, int h, std::shared_ptr<Event
 	label("Structure");
 	//event_sys = e_sys;
 	db_struct_gr = std::make_unique<DbStructureGroup>(x, y, w, h, e_sys);
+	this->resizable(db_struct_gr.get());//
 	table_struct_gr = std::make_unique<TableStructureGroup>(x, y, w, h,  e_sys);
+	this->resizable(table_struct_gr.get());//
 	atribute_struct_gr = std::make_unique<AtributeStructureGroup>(x, y, w, h);
+	this->resizable(atribute_struct_gr.get());//
 
 	db_struct_gr->hide();
 	table_struct_gr->hide();

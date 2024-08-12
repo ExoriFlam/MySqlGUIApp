@@ -13,6 +13,8 @@
 MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 	Fl_Double_Window(x, y, w, h, l), width(w), height(h), pading(10)
 {
+	this->size_range(800, 600);
+
 	event_sys = std::make_shared<EventSystem>();
 
 	db_helper = std::make_unique<DbHelper>("localhost", "root", "1111", "");
@@ -24,7 +26,7 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 		#endif
 	}
 
-	begin();
+	
 
 
 	//
@@ -38,11 +40,13 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 
     
 	
-	tabs = std::make_unique<TabControl>(220, 30, 570 ,530, event_sys);
-	//tabs->add_cb_create_db_btn(on_create_db_btn_click, this);
+	tabs = std::make_unique<TabControl>(220, 30, width - (pading * 2) - 220 ,height - 60 , event_sys);
+	this->resizable(tabs.get());//
+	
 
 	nav_panel = std::make_unique<NavPanel>(pading, 30, 200, 30);
-	
+	//this->resizable(nav_panel.get());//
+
 	nav_panel->add_cb_home_btn(on_home_btn_click, tabs.get());
 	nav_panel->add_cb_add_db_btn(on_show_tab_control, this);
 	nav_panel->add_cb_refresh_btn(on_refresh_btn_click,this);
@@ -50,12 +54,12 @@ MainWindow::MainWindow(int x, int y, int w, int h, const char* l = 0) :
 
     
 
-	db_list = std::make_unique<DbTree>(pading, 60, 200, 500);
+	db_list = std::make_unique<DbTree>(pading, 60, 200, height - 90);
 
 	db_list->init_tree(db_helper->get_schema());
 
 	db_list->callback(on_click_tree, this);
-
+	//this->resizable(db_list.get());//
 	
     
     // db_managment_group = std::make_unique<Fl_Group>(220, 60, 570 ,500);
@@ -167,6 +171,7 @@ void MainWindow::on_click_tree(Fl_Widget* w, void* v)
 
 void MainWindow::add_events()
 {
+
 	event_sys->subscribe("on_click_create_db_btn", [this](Fl_Widget* w) {
 
 		Fl_Input* input = (Fl_Input*)w;
@@ -314,16 +319,19 @@ void MainWindow::add_events()
 
 		if(query != "error")
 		{
+
+			db_helper->execute_modification_query("USE " + selected_db + ";");
+
 			if(db_helper->execute_modification_query(query))
 			{
 				#ifdef DEBUG
-				std::cerr << "Successfully executed query\n" << query;
+				std::cout << "Successfully executed query\n" << query;
 				#endif
 			}
 			else
 			{
 				#ifdef DEBUG
-				std::cerr << "Fail executed query\n" << query;
+				std::cout << "Fail executed query\n" << query;
 				#endif
 			}
 		}
